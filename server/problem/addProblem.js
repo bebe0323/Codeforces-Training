@@ -61,5 +61,5 @@ function getProblemId(problemLink) {
   } else {
     return { error: 'invalid id' };
   }
-
+  console.log('test');
 }
