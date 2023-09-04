@@ -60,7 +60,7 @@ app.post('/logout', (req, res) => {
 })
 
 app.post('/addProblem', async (req, res) => {
-  const { problemLink } = req.body;
+  const { link } = req.body;
   const { token } = req.cookies;
   let username = '';
   // verifying token
@@ -75,7 +75,7 @@ app.post('/addProblem', async (req, res) => {
     username = info.username;
   });
   console.log(`username: ${username}`);
-  const ret = await addProblem(username, problemLink);
+  const ret = await addProblem(username, link);
   if (typeof ret === 'object') {
     return res.status(200).json(ret.error);
   }
