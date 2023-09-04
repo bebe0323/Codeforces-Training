@@ -77,7 +77,7 @@ app.post('/addProblem', async (req, res) => {
   console.log(`username: ${username}`);
   const ret = await addProblem(username, link);
   if (typeof ret === 'object') {
-    return res.status(200).json(ret.error);
+    return res.status(400).json(ret.error);
   }
   return res.status(200).json('ok');
 });
