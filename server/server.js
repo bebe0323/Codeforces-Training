@@ -25,7 +25,7 @@ app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   const ret = await register(username, password);
   console.log(ret);
-  if ('error' in ret) {
+  if (typeof ret === 'object') {
     return res.status(400).json(ret.error);
   }
   res.status(200).json(ret);
@@ -34,14 +34,14 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const ret = await login(username, password);
-  if (typeof ret === 'object' && 'error' in ret) {
+  if (typeof ret === 'object') {
     return res.status(400).json(ret.error);
   }
   res.cookie('token', ret);
   return res.status(200).json(username);
 });
 
-app.get('/profile', (req, res) => {
+app.get('/profile', async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secretKey, {}, (err, info) => {
     if (err) {
@@ -60,21 +60,26 @@ app.post('/logout', (req, res) => {
 })
 
 app.post('/addProblem', async (req, res) => {
-  const { problemTitle, difficulty } = req.body;
+  const { problemLink } = req.body;
   const { token } = req.cookies;
   let username = '';
+  // verifying token
   jwt.verify(token, secretKey, {}, (err, info) => {
     if (err) {
       console.log('invalid token');
       return res.status(400).json(err);
     }
+    console.log('token verified');
+    console.log(info);
+    // return res.status(200).json(info);
     username = info.username;
   });
-  const ret = await addProblem(username, problemTitle, difficulty);
-  if ('error' in ret) {
-    return res.status(400).json(ret.error);
+  console.log(`username: ${username}`);
+  const ret = await addProblem(username, problemLink);
+  if (typeof ret === 'object') {
+    return res.status(200).json(ret.error);
   }
-  return res.status(200).json(ret);
+  return res.status(200).json('ok');
 });
 
 const PORT = 4000;
