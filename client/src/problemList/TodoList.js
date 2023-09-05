@@ -6,7 +6,7 @@ export default function TodoList() {
     // using async function here to avoid use async TodoList()
     async function fetchData() {
       try {
-        const response = await fetch('http://localhost:4000/todoList', {
+        const response = await fetch(`http://localhost:4000/problems/${'todo'}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

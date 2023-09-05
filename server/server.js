@@ -77,8 +77,9 @@ app.post('/addProblem', async (req, res) => {
   return res.status(200).json('success');
 });
 
-app.get('/todoList', async (req, res) => {
+app.get('/problems/:status', async (req, res) => {
   const { token } = req.cookies;
+  const status = req.params.status;
   // verifying token
   let username = '';
   jwt.verify(token, secretKey, {}, (err, info) => {
@@ -88,7 +89,7 @@ app.get('/todoList', async (req, res) => {
     // return res.status(200).json(info);
     username = info.username;
   });
-  const todoList = await getTodoList(username);
+  const todoList = await getTodoList(username, status);
   if (todoList.includes('error')) {
     return res.status(400).json(todoList.error);
   }

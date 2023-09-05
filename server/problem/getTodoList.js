@@ -1,10 +1,10 @@
 import { ProblemModel } from "../models/ProblemModel.js";
 
-export default async function getTodoList(username) {
+export default async function getTodoList(username, status) {
   try {
     const problems = await ProblemModel.find({
       username: username,
-      status: 'todo'
+      status: status
     });
     return problems;
   } catch (error) {
