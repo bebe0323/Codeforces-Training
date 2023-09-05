@@ -4,36 +4,28 @@ import axios from 'axios';
 
 export default async function addProblem(username, problemLink) {
   console.log(username, problemLink, 'here');
-  if (!isValidLink(problemLink)) {
-    return { error: 'invalid link' };
-  }
   const tags = [];
+  let title = '';
   await axios.get(problemLink)
     .then(urlResponse => {
       const $ = cheerio.load(urlResponse.data)
       $('span.tag-box').each((index, element) => {
         tags.push($(element).text().trim());
       })
+      $('div.header div.title').each((index, element) => {
+        title = $(element).text().trim();
+      })
     }).catch(err => console.log(err))
   
+  console.log(`title: ${title}`);
   const difficulty = getDifficulty(tags);
   console.log(`problem difficulty: ${difficulty}`);
 
   const problemId = getProblemId(problemLink);
-  if (typeof problemId === 'object') {
-    return problemId;
+  if (title === '' || typeof problemId === 'object') {
+    return { error: 'invalid link' };
   }
   console.log(`problemId: ${problemId}`);
-}
-
-function isValidLink(problemLink) {
-  console.log(`problem link: ${problemLink}`);
-  if (problemLink.startsWith("https://codeforces.com")) {
-    console.log('true');
-    return true;
-  }
-  console.log('false');
-  return false;
 }
 
 function getDifficulty(tags) {
@@ -42,7 +34,6 @@ function getDifficulty(tags) {
     // problem difficulty is a string start with *
     const removedFirst = lastElement.substring(1);
     if (!isNaN(removedFirst)) {
-      console.log('difficulty is a number');
       return Number(removedFirst);
     }
   }
