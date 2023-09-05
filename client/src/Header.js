@@ -33,6 +33,9 @@ export default function Header() {
         {userInfo && (
           <>
             <Link to="/addProblem">Add problem</Link>
+            <Link to="/todoList">Todo</Link>
+            <Link to="/skippedList">Skipped</Link>
+            <Link to="/solvedList">Solved</Link>
             <a onClick={logout}>Logout</a>
           </>
         )}

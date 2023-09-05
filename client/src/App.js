@@ -6,6 +6,9 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import { UserContextProvider } from './UserContext';
 import AddProblemPage from './pages/AddProblemPage';
+import SkippedList from './problemList/SkippedList';
+import TodoList from './problemList/TodoList';
+import SolvedList from './problemList/SolvedList';
 
 function App() {
   return (
@@ -16,6 +19,10 @@ function App() {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/addProblem' element={<AddProblemPage />} />
+          <Route path='/todoList' element={<TodoList />} />
+          <Route path='/skippedList' element={<SkippedList />} />
+          <Route path='/solvedList' element={<SolvedList />} />
+        
         </Route>
       </Routes>
     </UserContextProvider>

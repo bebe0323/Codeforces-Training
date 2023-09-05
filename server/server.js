@@ -8,6 +8,7 @@ import register from './auth/register.js';
 import login from './auth/login.js';
 import { secretKey } from './auth/createSecretKey.js';
 import addProblem from './problem/addProblem.js';
+import getTodoList from './problem/getTodoList.js';
 
 // Set up web app
 const app = express();
@@ -73,6 +74,24 @@ app.post('/addProblem', async (req, res) => {
     return res.status(400).json(ret.error);
   }
   return res.status(200).json('success');
+});
+
+app.get('/todoList', async (req, res) => {
+  const { token } = req.cookies;
+  let username = '';
+  // verifying token
+  jwt.verify(token, secretKey, {}, (err, info) => {
+    if (err) {
+      return res.status(400).json(err);
+    }
+    // return res.status(200).json(info);
+    username = info.username;
+  });
+  const todoList = await getTodoList(username);
+  if (typeof ret === 'object') {
+    return res.status(400).json(ret.error);
+  }
+  return res.status(200).json(todoList);
 });
 
 const PORT = 4000;

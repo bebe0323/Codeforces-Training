@@ -8,7 +8,7 @@ const ProblemSchema = new Schema({
   difficulty: Number,
   problemId: String,
   tags: [String],
-  status: String,
+  status: String, // todo / skipped / solved
   added: Date,
   solved: Date
 });
