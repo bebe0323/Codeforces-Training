@@ -9,6 +9,7 @@ import login from './auth/login.js';
 import { secretKey } from './auth/createSecretKey.js';
 import addProblem from './problem/addProblem.js';
 import getTodoList from './problem/getTodoList.js';
+import removeProblem from './problem/removeProblem.js';
 
 // Set up web app
 const app = express();
@@ -78,8 +79,8 @@ app.post('/addProblem', async (req, res) => {
 
 app.get('/todoList', async (req, res) => {
   const { token } = req.cookies;
-  let username = '';
   // verifying token
+  let username = '';
   jwt.verify(token, secretKey, {}, (err, info) => {
     if (err) {
       return res.status(400).json(err);
@@ -88,10 +89,31 @@ app.get('/todoList', async (req, res) => {
     username = info.username;
   });
   const todoList = await getTodoList(username);
-  if (typeof ret === 'object') {
-    return res.status(400).json(ret.error);
+  if (todoList.includes('error')) {
+    return res.status(400).json(todoList.error);
   }
   return res.status(200).json(todoList);
+});
+
+app.delete('/remove/:problemId', async (req, res) => {
+  const { token } = req.cookies;
+  const problemId = req.params.problemId;
+  // verifying token
+  let username = '';
+  jwt.verify(token, secretKey, {}, (err, info) => {
+    if (err) {
+      return res.status(400).json(err);
+    }
+    // return res.status(200).json(info);
+    username = info.username;
+  });
+  const ret = await removeProblem(username, problemId);
+  if (typeof ret === 'object') {
+    console.log('error in deleting: ' + ret.error);
+    return res.status(400).json(ret.error);
+  }
+  console.log('succesffully deleted');
+  return res.status(200).json('ok');
 });
 
 const PORT = 4000;

@@ -1,4 +1,4 @@
-import { ProblemModel } from "../models/ProblemModel";
+import { ProblemModel } from "../models/ProblemModel.js";
 
 export default async function getTodoList(username) {
   try {
@@ -6,10 +6,8 @@ export default async function getTodoList(username) {
       username: username,
       status: 'todo'
     });
-    console.log(`all problems of ${username}`);
-    console.log(problems);
+    return problems;
   } catch (error) {
-    console.error('Error while fetching problems:', error);
     return { error: 'internal server error' };
   }
 }

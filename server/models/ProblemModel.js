@@ -9,8 +9,9 @@ const ProblemSchema = new Schema({
   problemId: String,
   tags: [String],
   status: String, // todo / skipped / solved
-  added: Date,
-  solved: Date
+  addedDate: Date,
+  solvedDate: Date,
+  startedDate: Date
 });
 
 export const ProblemModel = model('problem', ProblemSchema);
