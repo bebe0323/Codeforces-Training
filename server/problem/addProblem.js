@@ -42,11 +42,12 @@ function getDifficulty(tags) {
     // problem difficulty is a string start with *
     const removedFirst = lastElement.substring(1);
     if (!isNaN(removedFirst)) {
+      console.log('difficulty is a number');
       return Number(removedFirst);
     }
-    // does not have difficulty
-    return 0;
   }
+  // does not have difficulty
+  return 0;
 }
 
 function getProblemId(problemLink) {
@@ -54,12 +55,23 @@ function getProblemId(problemLink) {
   // https://codeforces.com/contest/1830/problem/A
   // problem from problemset
   // https://codeforces.com/problemset/problem/1856/C
-  if (problemLink.startsWith('https://codeforces.com/contest')) {
+  
+  const parts = problemLink.split('/').filter(part => part !== '');
+  if (
+    problemLink.startsWith('https://codeforces.com/contest/') &&
+    parts.length === 6 &&
+    parts[4] === 'problem'
+  ) {
     // problem from contest
-  } else if (problemLink.startsWith('https://codeforces.com/problemset')) {
+    return (parts[3] + parts[5]);
+  } else if (
+    problemLink.startsWith('https://codeforces.com/problemset/') &&
+    parts.length === 6 &&
+    parts[3] === 'problem'
+  ) {
     // problem from problemset
+    return (parts[4] + parts[5]);
   } else {
     return { error: 'invalid id' };
   }
-  console.log('test');
 }
