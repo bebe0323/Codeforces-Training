@@ -24,11 +24,10 @@ app.use(cookieParser());
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   const ret = await register(username, password);
-  console.log(ret);
   if (typeof ret === 'object') {
     return res.status(400).json(ret.error);
   }
-  res.status(200).json(ret);
+  res.status(200).json('ok');
 });
 
 app.post('/login', async (req, res) => {
@@ -45,10 +44,8 @@ app.get('/profile', async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secretKey, {}, (err, info) => {
     if (err) {
-      console.log('invalid token');
       return res.status(400).json(err);
     }
-    console.log('token verified');
     return res.status(200).json(info);
   });
 });
@@ -66,20 +63,16 @@ app.post('/addProblem', async (req, res) => {
   // verifying token
   jwt.verify(token, secretKey, {}, (err, info) => {
     if (err) {
-      console.log('invalid token');
       return res.status(400).json(err);
     }
-    console.log('token verified');
-    console.log(info);
     // return res.status(200).json(info);
     username = info.username;
   });
-  console.log(`username: ${username}`);
   const ret = await addProblem(username, link);
   if (typeof ret === 'object') {
     return res.status(400).json(ret.error);
   }
-  return res.status(200).json('ok');
+  return res.status(200).json('success');
 });
 
 const PORT = 4000;

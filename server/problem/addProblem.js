@@ -3,9 +3,13 @@ import cheerio from 'cheerio';
 import axios from 'axios';
 
 export default async function addProblem(username, problemLink) {
-  console.log(username, problemLink, 'here');
+  if (typeof problemLink !== 'string') {
+    return { error: 'invalid link' };
+  }
+  problemLink = problemLink.toLowerCase();
   const tags = [];
   let title = '';
+  
   await axios.get(problemLink)
     .then(urlResponse => {
       const $ = cheerio.load(urlResponse.data)
@@ -19,13 +23,47 @@ export default async function addProblem(username, problemLink) {
   
   console.log(`title: ${title}`);
   const difficulty = getDifficulty(tags);
+  if (difficulty !== 0) {
+    // removing difficulty tag
+    tags.pop();
+  }
   console.log(`problem difficulty: ${difficulty}`);
-
+  
   const problemId = getProblemId(problemLink);
   if (title === '' || typeof problemId === 'object') {
     return { error: 'invalid link' };
   }
   console.log(`problemId: ${problemId}`);
+  
+  try {
+    // checking if user already added
+    const problemExist = await ProblemModel.findOne({
+      username: username,
+      problemId: problemId
+    });
+    if (problemExist !== null) {
+      console.log('aready added to database');
+      return { error: 'already added' };
+    }
+    console.log('adding to database');
+    // adding to mongoDB database
+    const newProblem = new ProblemModel({
+      username: username,
+      problemLink: problemLink,
+      title: title,
+      difficulty: difficulty,
+      problemId: problemId,
+      tags: tags,
+      status: 'todo',
+      added: new Date(),
+      solved: undefined,
+    });
+    await newProblem.save();
+    return 'success';
+  } catch(error) {
+    console.error('Error while checking for problem existence:', error);
+    return { error: 'internal server error' };
+  }
 }
 
 function getDifficulty(tags) {

@@ -21,5 +21,5 @@ export default async function register(username, password) {
     password: hash
   });
   await newUser.save();
-  return newUser._id;
+  return 'ok';
 }

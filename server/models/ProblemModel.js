@@ -3,9 +3,10 @@ const { Schema, model } = mongoose;
 
 const ProblemSchema = new Schema({
   username: String,
+  problemLink: String,
   title: String,
   difficulty: Number,
-  problemId: Number,
+  problemId: String,
   tags: [String],
   status: String,
   added: Date,
