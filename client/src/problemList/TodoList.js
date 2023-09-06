@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 export async function handleRemove(problemId) {
   const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
@@ -16,6 +17,8 @@ export async function handleRemove(problemId) {
 
 export default function TodoList() {
   const [problemList, setProblemList] = useState(null);
+  const [redirect, setRedirect] = useState(false);
+
   useEffect(() => {
     // using async function here to avoid use async TodoList()
     async function fetchData() {
@@ -41,8 +44,25 @@ export default function TodoList() {
     fetchData();
   }, []);
 
-  function handleStart(problemId) {
-    
+  async function handleStart(problemId) {
+    console.log(problemId);
+    const response = await fetch(`http://localhost:4000/startSolving`, {
+      method: 'POST',
+      body: JSON.stringify({
+        problemId: problemId
+      }),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.status === 200) {
+      setRedirect(true);
+    } else {
+      response.json()
+        .then(data => alert(data))
+    }
+  }
+  if (redirect) {
+    return <Navigate to={'/solving'} />
   }
   
   return (

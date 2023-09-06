@@ -9,6 +9,7 @@ import AddProblemPage from './pages/AddProblemPage';
 import SkippedList from './problemList/SkippedList';
 import TodoList from './problemList/TodoList';
 import SolvedList from './problemList/SolvedList';
+import Solving from './pages/Solving';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
           <Route path='/todoList' element={<TodoList />} />
           <Route path='/skippedList' element={<SkippedList />} />
           <Route path='/solvedList' element={<SolvedList />} />
-        
+          <Route path='/solving' element={<Solving />} />
         </Route>
       </Routes>
     </UserContextProvider>

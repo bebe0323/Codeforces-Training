@@ -10,6 +10,7 @@ import { secretKey } from './auth/createSecretKey.js';
 import addProblem from './problem/addProblem.js';
 import getTodoList from './problem/getTodoList.js';
 import removeProblem from './problem/removeProblem.js';
+import startSolving from './problem/startSolving.js';
 
 // Set up web app
 const app = express();
@@ -114,6 +115,26 @@ app.delete('/remove/:problemId', async (req, res) => {
     return res.status(400).json(ret.error);
   }
   console.log('succesffully deleted');
+  return res.status(200).json('ok');
+});
+
+app.post('/startSolving', async (req, res) => {
+  const { token } = req.cookies;
+  const { problemId } = req.body;
+  // verifying token
+  let username = '';
+  jwt.verify(token, secretKey, {}, (err, info) => {
+    if (err) {
+      return res.status(400).json(err);
+    }
+    // return res.status(200).json(info);
+    username = info.username;
+  });
+  console.log(username, problemId);
+  const ret = await startSolving(username, problemId);
+  if (ret.includes('error')) {
+    return res.status(400).json(ret.error);
+  }
   return res.status(200).json('ok');
 });
 
