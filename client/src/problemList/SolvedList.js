@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Post from "../Post";
 
 export default function SolvedList() {
   const [problemList, setProblemList] = useState(null);
@@ -40,6 +41,8 @@ export default function SolvedList() {
         .then(error => console.log(error))
     }
   }
+
+  return (<Post />)
   
   return (
     <div>

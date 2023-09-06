@@ -88,7 +88,8 @@ table{
   font-family: sans-serif;
   min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  width: 60%;
+  width: 80%;
+  margin: 0 auto; /* Set left and right margins to "auto" */
 }
 
 thead tr {
@@ -121,4 +122,8 @@ tbody tr.active-row {
 
 .actionsList {
   margin-right: 5px;
+}
+
+a {
+  text-decoration: none; /* Remove the underline from links */
 }
