@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Post from "../Post";
 import { handleRemove } from "./TodoList";
 
 export default function SolvedList() {
@@ -29,8 +28,32 @@ export default function SolvedList() {
     fetchData();
   }, []);
 
-  // return (<Post />)
+  function findSolvedDuration(startedDate, solvedDate) {
+    startedDate = new Date(startedDate);
+    solvedDate = new Date(solvedDate);
+    console.log(startedDate);
+    console.log(solvedDate);
+    const seconds = Math.floor((solvedDate - startedDate) / 1000);
+    console.log(seconds);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return (
+      `Hours: ${hours}, Minutes: ${minutes}, Seconds: ${remainingSeconds}`
+    )
+  }
 
+  function findDate(solvedDate) {
+    solvedDate = new Date(solvedDate);
+    // Extract year, month, and date
+    const year = solvedDate.getUTCFullYear();
+    const month = solvedDate.getUTCMonth() + 1; // Add 1 because getUTCMonth() returns a zero-based index (0 = January)
+    const date = solvedDate.getUTCDate();
+    return (
+      `${year}/${month}/${date}`
+    );
+  }
+  
   return (
     <div>
       <h1>Solved List</h1>
@@ -49,11 +72,11 @@ export default function SolvedList() {
           <tbody>
             {problemList.map((item, index) => (
               <tr key={index} className={!index % 2 ? 'active-row': ''}>
-                <td><a target="_blank" className="cfLink" href={item.link}>{item.problemId}</a></td>
+                <td><a target="_blank" rel="noreferrer noopener" className="cfLink" href={item.link}>{item.problemId}</a></td>
                 <td>{item.title}</td>
                 <td>{item.difficulty}</td>
-                <td>1 min</td>
-                <td>{item.solvedDate}</td>
+                <td>{findDate(item.solvedDate)}</td>
+                <td>{findSolvedDuration(item.startedDate, item.solvedDate)}</td>
                 <td>
                   <button onClick={() => handleRemove(item.problemId)}>Remove</button>
                 </td>

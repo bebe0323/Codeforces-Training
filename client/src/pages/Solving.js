@@ -1,11 +1,8 @@
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../UserContext";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-
 
 export default function Solving() {
   const [problem, setProblem] = useState(null);
-  const [isRunning, setIsRunning] = useState(true);
   const [time, setTime] = useState(0);
   const [redirect, setRedirect] = useState(false);
 
@@ -35,22 +32,14 @@ export default function Solving() {
   }, []);
 
   useEffect(() => {
-    let interval;
+    // Create an interval that increments the time every second
+    const interval = setInterval(() => {
+      setTime((prevTime) => prevTime + 1);
+    }, 1000);
 
-    if (isRunning) {
-      interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
-
+    // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [isRunning]);
-
-  function handleStopStart() {
-    setIsRunning(isRunning => !isRunning);
-  }
+  }, []);
 
   async function handleSolved() {
     // POST/PUT body
@@ -84,9 +73,8 @@ export default function Solving() {
   } else {
     return (
       <div>
-        <h1><a target="_blank" href={problem.link}>{problem.title}</a></h1>
+        <h1><a target="_blank" rel="noreferrer noopener" href={problem.link}>{problem.title}</a></h1>
         <p>Time: {time} seconds</p>
-        <button onClick={handleStopStart}>{isRunning ? 'Stop': 'Start'}</button>
         <button onClick={handleSolved}>Solved</button>
       </div>
     );
