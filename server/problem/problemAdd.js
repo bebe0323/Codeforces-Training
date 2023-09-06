@@ -21,19 +21,16 @@ export default async function problemAdd(username, problemLink) {
       })
     }).catch(err => console.log(err))
   
-  console.log(`title: ${title}`);
   const difficulty = getDifficulty(tags);
   if (difficulty !== 0) {
     // removing difficulty tag
     tags.pop();
   }
-  console.log(`problem difficulty: ${difficulty}`);
   
   const problemId = getProblemId(problemLink);
   if (title === '' || typeof problemId === 'object') {
     return { error: 'invalid link' };
   }
-  console.log(`problemId: ${problemId}`);
   
   try {
     // checking if user already added
@@ -42,10 +39,8 @@ export default async function problemAdd(username, problemLink) {
       problemId: problemId
     });
     if (problemExist !== null) {
-      console.log('aready added to database');
       return { error: 'already added' };
     }
-    console.log('adding to database');
     // adding to mongoDB database
     const newProblem = new ProblemModel({
       username: username,

@@ -45,7 +45,6 @@ export default function TodoList() {
   }, []);
 
   async function handleStart(problemId) {
-    console.log(problemId);
     const response = await fetch(`http://localhost:4000/problemUpdate`, {
       method: 'PUT',
       body: JSON.stringify({
@@ -85,7 +84,7 @@ export default function TodoList() {
             <tbody>
               {problemList.map((item, index) => (
                 <tr key={index} className={index % 2 === 1 ? 'active-row': ''}>
-                  <td><a target="_blank" className="cfLink" href={item.link}>{item.problemId}</a></td>
+                  <td><a target="_blank" rel="noreferrer noopener" className="cfLink" href={item.link}>{item.problemId}</a></td>
                   <td>{item.title}</td>
                   <td>{item.difficulty}</td>
                   <td>{item.addedDate}</td>

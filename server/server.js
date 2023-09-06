@@ -113,10 +113,8 @@ app.delete('/remove/:problemId', async (req, res) => {
   });
   const ret = await problemRemove(username, problemId);
   if (typeof ret === 'object' && 'error' in ret) {
-    console.log('error in deleting: ' + ret.error);
     return res.status(400).json(ret.error);
   }
-  console.log('succesffully deleted');
   return res.status(200).json('ok');
 });
 
@@ -133,7 +131,6 @@ app.get('/currentSolving', async (req, res) => {
     username = info.username;
   });
   const ret = await currentSolving(username);
-  console.log(ret);
   if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }

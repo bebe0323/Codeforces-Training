@@ -43,8 +43,5 @@ export default async function problemUpdate(
   if (problem === null) {
     return { error: 'problem error' };
   }
-  console.log('updated problem');
-  console.log(problem);
   return 'ok';
 }
-  

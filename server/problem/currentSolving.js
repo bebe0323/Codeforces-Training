@@ -8,7 +8,5 @@ export default async function currentSolving(username) {
   if (problem === null) {
     return { error: 'user does not have solving problem' };
   }
-  console.log('user is currently solving');
-  console.log(problem);
   return problem;
 }

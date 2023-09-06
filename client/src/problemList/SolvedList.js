@@ -31,10 +31,7 @@ export default function SolvedList() {
   function findSolvedDuration(startedDate, solvedDate) {
     startedDate = new Date(startedDate);
     solvedDate = new Date(solvedDate);
-    console.log(startedDate);
-    console.log(solvedDate);
     const seconds = Math.floor((solvedDate - startedDate) / 1000);
-    console.log(seconds);
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
