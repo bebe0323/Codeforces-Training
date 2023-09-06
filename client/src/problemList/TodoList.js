@@ -1,5 +1,19 @@
 import { useEffect, useState } from "react";
 
+export async function handleRemove(problemId) {
+  const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+  });
+  if (response.status === 200) {
+    window.location.reload();
+  } else {
+    response.json()
+      .then(error => console.log(error))
+  }
+}
+
 export default function TodoList() {
   const [problemList, setProblemList] = useState(null);
   useEffect(() => {
@@ -30,20 +44,6 @@ export default function TodoList() {
   function handleStart(problemId) {
     
   }
-
-  async function handleRemove(problemId) {
-    const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.status === 200) {
-      window.location.reload();
-    } else {
-      response.json()
-        .then(error => console.log(error))
-    }
-  }
   
   return (
     <div>
@@ -62,8 +62,8 @@ export default function TodoList() {
             </thead>
             <tbody>
               {problemList.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.problemId}</td>
+                <tr key={index} className={index % 2 === 1 ? 'active-row': ''}>
+                  <td><a target="_blank" className="cfLink" href={item.link}>{item.problemId}</a></td>
                   <td>{item.title}</td>
                   <td>{item.difficulty}</td>
                   <td>{item.addedDate}</td>

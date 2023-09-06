@@ -3,7 +3,7 @@ const { Schema, model } = mongoose;
 
 const ProblemSchema = new Schema({
   username: String,
-  problemLink: String,
+  link: String,
   title: String,
   difficulty: Number,
   problemId: String,
@@ -11,7 +11,7 @@ const ProblemSchema = new Schema({
   status: String, // todo / skipped / solved
   addedDate: Date,
   solvedDate: Date,
-  startedDate: Date
+  solvedDuration: Number
 });
 
 export const ProblemModel = model('problem', ProblemSchema);

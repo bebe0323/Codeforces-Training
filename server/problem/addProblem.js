@@ -49,7 +49,7 @@ export default async function addProblem(username, problemLink) {
     // adding to mongoDB database
     const newProblem = new ProblemModel({
       username: username,
-      problemLink: problemLink,
+      link: problemLink,
       title: title,
       difficulty: difficulty,
       problemId: problemId,
@@ -57,7 +57,7 @@ export default async function addProblem(username, problemLink) {
       status: 'todo',
       addedDate: new Date(),
       solvedDate: null,
-      startedDate: null
+      solvedDuration: null
     });
     await newProblem.save();
     return 'success';

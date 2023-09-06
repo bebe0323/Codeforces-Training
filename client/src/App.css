@@ -124,6 +124,12 @@ tbody tr.active-row {
   margin-right: 5px;
 }
 
-a {
+a.cfLink {
+  color: black;
   text-decoration: none; /* Remove the underline from links */
+}
+
+.active-row a {
+  color: #009879;
+  target: "_blank";
 }

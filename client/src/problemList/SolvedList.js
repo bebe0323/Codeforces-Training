@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Post from "../Post";
+import { handleRemove } from "./TodoList";
 
 export default function SolvedList() {
   const [problemList, setProblemList] = useState(null);
@@ -28,52 +29,38 @@ export default function SolvedList() {
     fetchData();
   }, []);
 
-  async function handleRemove(problemId) {
-    const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.status === 200) {
-      window.location.reload();
-    } else {
-      response.json()
-        .then(error => console.log(error))
-    }
-  }
+  // return (<Post />)
 
-  return (<Post />)
-  
   return (
     <div>
-      <h1>Todo List</h1>
+      <h1>Solved List</h1>
       {problemList !== null ? (
-        <>
-          <table>
-            <thead>
-              <tr>
-                <th style={{width: '3.75em', }}>#</th>
-                <th style={{textAlign: 'center'}}>Name</th>
-                <th style={{width: '2.5em'}}>Difficulty</th>
-                <th>Date added</th>
-                <th>Actions</th>
+        <table>
+          <thead>
+            <tr>
+              <th style={{width: '3.75em', }}>#</th>
+              <th style={{textAlign: 'center'}}>Name</th>
+              <th style={{width: '2.5em'}}>Difficulty</th>
+              <th>Date solved</th>
+              <th>Solved Duration</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {problemList.map((item, index) => (
+              <tr key={index} className={!index % 2 ? 'active-row': ''}>
+                <td><a target="_blank" className="cfLink" href={item.link}>{item.problemId}</a></td>
+                <td>{item.title}</td>
+                <td>{item.difficulty}</td>
+                <td>{item.solvedDate}</td>
+                <td>{item.solvedDuration}</td>
+                <td>
+                  <button onClick={() => handleRemove(item.problemId)}>Remove</button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {problemList.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.problemId}</td>
-                  <td>{item.title}</td>
-                  <td>{item.difficulty}</td>
-                  <td>{item.addedDate}</td>
-                  <td>
-                    <button onClick={() => handleRemove(item.problemId)}>Remove</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
+            ))}
+          </tbody>
+        </table>
       ): (
         <>
           Loading
