@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { findDate } from "./SolvedList.js";
 
 export async function handleRemove(problemId) {
   const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
@@ -87,7 +88,7 @@ export default function TodoList() {
                   <td><a target="_blank" rel="noreferrer noopener" className="cfLink" href={item.link}>{item.problemId}</a></td>
                   <td>{item.title}</td>
                   <td>{item.difficulty}</td>
-                  <td>{item.addedDate}</td>
+                  <td>{findDate(item.addedDate)}</td>
                   <td>
                     <button onClick={() => handleStart(item.problemId)}>Start solving</button>
                     <button onClick={() => handleRemove(item.problemId)}>Remove</button>

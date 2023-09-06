@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { handleRemove } from "./TodoList";
 
+export function findDate(solvedDate) {
+  solvedDate = new Date(solvedDate);
+  // Extract year, month, and date
+  const year = solvedDate.getUTCFullYear();
+  const month = solvedDate.getUTCMonth() + 1; // Add 1 because getUTCMonth() returns a zero-based index (0 = January)
+  const date = solvedDate.getUTCDate();
+  return (
+    `${year}/${month}/${date}`
+  );
+}
+
 export default function SolvedList() {
   const [problemList, setProblemList] = useState(null);
   useEffect(() => {
@@ -38,17 +49,6 @@ export default function SolvedList() {
     return (
       `Hours: ${hours}, Minutes: ${minutes}, Seconds: ${remainingSeconds}`
     )
-  }
-
-  function findDate(solvedDate) {
-    solvedDate = new Date(solvedDate);
-    // Extract year, month, and date
-    const year = solvedDate.getUTCFullYear();
-    const month = solvedDate.getUTCMonth() + 1; // Add 1 because getUTCMonth() returns a zero-based index (0 = January)
-    const date = solvedDate.getUTCDate();
-    return (
-      `${year}/${month}/${date}`
-    );
   }
   
   return (
