@@ -28,7 +28,7 @@ export default function LoginPage() {
     }
   }
   if (redirect) {
-    return <Navigate to={'/'} />
+    return <Navigate to={'/'} />;
   }
   return (
     <form action="" className="login" onSubmit={handleLogin}>

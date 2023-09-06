@@ -7,10 +7,12 @@ import jwt from 'jsonwebtoken';
 import register from './auth/register.js';
 import login from './auth/login.js';
 import { secretKey } from './auth/createSecretKey.js';
-import addProblem from './problem/addProblem.js';
-import getTodoList from './problem/getTodoList.js';
-import removeProblem from './problem/removeProblem.js';
-import startSolving from './problem/startSolving.js';
+import problemAdd from './problem/problemAdd.js';
+import getProblemsList from './problem/getProblemsList.js';
+import problemRemove from './problem/problemRemove.js';
+import currentSolving from './problem/currentSolving.js';
+
+import problemUpdate from './problem/problemUpdate.js'
 
 // Set up web app
 const app = express();
@@ -27,7 +29,7 @@ app.use(cookieParser());
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   const ret = await register(username, password);
-  if (typeof ret === 'object') {
+  if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }
   res.status(200).json('ok');
@@ -36,7 +38,7 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const ret = await login(username, password);
-  if (typeof ret === 'object') {
+  if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }
   res.cookie('token', ret);
@@ -59,7 +61,7 @@ app.post('/logout', (req, res) => {
   res.status(200).json('ok');
 })
 
-app.post('/addProblem', async (req, res) => {
+app.post('/problemAdd', async (req, res) => {
   const { link } = req.body;
   const { token } = req.cookies;
   let username = '';
@@ -71,8 +73,8 @@ app.post('/addProblem', async (req, res) => {
     // return res.status(200).json(info);
     username = info.username;
   });
-  const ret = await addProblem(username, link);
-  if (typeof ret === 'object') {
+  const ret = await problemAdd(username, link);
+  if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }
   return res.status(200).json('success');
@@ -90,8 +92,8 @@ app.get('/problems/:status', async (req, res) => {
     // return res.status(200).json(info);
     username = info.username;
   });
-  const todoList = await getTodoList(username, status);
-  if (todoList.includes('error')) {
+  const todoList = await getProblemsList(username, status);
+  if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(todoList.error);
   }
   return res.status(200).json(todoList);
@@ -109,8 +111,8 @@ app.delete('/remove/:problemId', async (req, res) => {
     // return res.status(200).json(info);
     username = info.username;
   });
-  const ret = await removeProblem(username, problemId);
-  if (typeof ret === 'object') {
+  const ret = await problemRemove(username, problemId);
+  if (typeof ret === 'object' && 'error' in ret) {
     console.log('error in deleting: ' + ret.error);
     return res.status(400).json(ret.error);
   }
@@ -118,9 +120,9 @@ app.delete('/remove/:problemId', async (req, res) => {
   return res.status(200).json('ok');
 });
 
-app.post('/startSolving', async (req, res) => {
+/* Getting the problem that user is currently solving */
+app.get('/currentSolving', async (req, res) => {
   const { token } = req.cookies;
-  const { problemId } = req.body;
   // verifying token
   let username = '';
   jwt.verify(token, secretKey, {}, (err, info) => {
@@ -130,12 +132,43 @@ app.post('/startSolving', async (req, res) => {
     // return res.status(200).json(info);
     username = info.username;
   });
-  console.log(username, problemId);
-  const ret = await startSolving(username, problemId);
-  if (ret.includes('error')) {
+  const ret = await currentSolving(username);
+  console.log(ret);
+  if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }
-  return res.status(200).json('ok');
+  return res.status(200).json(ret);
+});
+
+/* Problem solved */
+app.put('/problemUpdate', async(req, res) => {
+  const { token } = req.cookies;
+  const {
+    problemId,
+    duration,
+    preStatus,
+    status,
+  } = req.body;
+  // verifying token
+  let username = '';
+  jwt.verify(token, secretKey, {}, (err, info) => {
+    if (err) {
+      return res.status(400).json(err);
+    }
+    // return res.status(200).json(info);
+    username = info.username;
+  });
+  const ret = await problemUpdate(
+    username,
+    problemId,
+    duration,
+    preStatus,
+    status
+  );
+  if (typeof ret === 'object' && 'error' in ret) {
+    return res.status(400).json(ret.error);
+  }
+  return res.status(200).json(ret);
 });
 
 const PORT = 4000;

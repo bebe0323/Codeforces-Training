@@ -2,9 +2,9 @@ import { useState} from "react";
 
 export default function AddProblemPage() {
   const [link, setLink] = useState('');
-  async function handleAddProblem(e) {
+  async function handleProblemAdd(e) {
     e.preventDefault();
-    const response = await fetch('http://localhost:4000/addProblem', {
+    const response = await fetch('http://localhost:4000/problemAdd', {
       method: 'POST',
       body: JSON.stringify({ link }),
       headers: { 'Content-Type': 'application/json' },
@@ -21,7 +21,7 @@ export default function AddProblemPage() {
 
   return (
     <div>
-      <form onSubmit={handleAddProblem}>
+      <form onSubmit={handleProblemAdd}>
         <input
           placeholder="Problem link"
           value={link}

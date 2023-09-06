@@ -46,10 +46,13 @@ export default function TodoList() {
 
   async function handleStart(problemId) {
     console.log(problemId);
-    const response = await fetch(`http://localhost:4000/startSolving`, {
-      method: 'POST',
+    const response = await fetch(`http://localhost:4000/problemUpdate`, {
+      method: 'PUT',
       body: JSON.stringify({
-        problemId: problemId
+        problemId: problemId,
+        duration: 0,
+        preStatus: 'todo',
+        status: 'solving',
       }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
