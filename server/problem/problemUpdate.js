@@ -7,6 +7,16 @@ export default async function problemUpdate(
   preStatus,
   status
 ) {
+  // checking if user is solving other problem now
+  if (preStatus === 'todo' && status === 'solving') {
+    const problemSolving = await ProblemModel.findOne({
+      username: username,
+      status: 'solving'
+    });
+    if (problemSolving !== null) {
+      return { error: `First solve ${problemSolving.problemId} ` };
+    }
+  }
   const query = {
     username: username,
     problemId: problemId,
