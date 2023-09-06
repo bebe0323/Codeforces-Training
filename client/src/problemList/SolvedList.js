@@ -52,8 +52,8 @@ export default function SolvedList() {
                 <td><a target="_blank" className="cfLink" href={item.link}>{item.problemId}</a></td>
                 <td>{item.title}</td>
                 <td>{item.difficulty}</td>
+                <td>1 min</td>
                 <td>{item.solvedDate}</td>
-                <td>{item.solvedDuration}</td>
                 <td>
                   <button onClick={() => handleRemove(item.problemId)}>Remove</button>
                 </td>

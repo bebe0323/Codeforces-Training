@@ -21,7 +21,10 @@ export default function Solving() {
           response.json()
             .then(data => {
               setProblem(data);
-              setTime(data.solvedDuration);
+              const startedDate = new Date(data.startedDate);
+              const currentDate = new Date();
+              const difference = currentDate - startedDate;
+              setTime(Math.floor((difference / 1000)));
             })
         }
       } catch(error) {
@@ -55,7 +58,6 @@ export default function Solving() {
       method: 'PUT',
       body: JSON.stringify({
         problemId: problem.problemId,
-        duration: time,
         preStatus: 'solving',
         status: 'solved'
       }),

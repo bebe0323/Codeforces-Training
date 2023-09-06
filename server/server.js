@@ -145,7 +145,6 @@ app.put('/problemUpdate', async(req, res) => {
   const { token } = req.cookies;
   const {
     problemId,
-    duration,
     preStatus,
     status,
   } = req.body;
@@ -161,7 +160,6 @@ app.put('/problemUpdate', async(req, res) => {
   const ret = await problemUpdate(
     username,
     problemId,
-    duration,
     preStatus,
     status
   );

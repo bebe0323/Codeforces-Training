@@ -50,9 +50,8 @@ export default function TodoList() {
       method: 'PUT',
       body: JSON.stringify({
         problemId: problemId,
-        duration: 0,
         preStatus: 'todo',
-        status: 'solving',
+        status: 'solving'
       }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
