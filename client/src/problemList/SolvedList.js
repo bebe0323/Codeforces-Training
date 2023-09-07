@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { handleRemove } from "./TodoList";
+import Button from 'react-bootstrap/Button';
 
 export function findDate(solvedDate) {
   solvedDate = new Date(solvedDate);
@@ -75,7 +76,7 @@ export default function SolvedList() {
                 <td>{findDate(item.solvedDate)}</td>
                 <td>{findSolvedDuration(item.startedDate, item.solvedDate)}</td>
                 <td>
-                  <button onClick={() => handleRemove(item.problemId)}>Remove</button>
+                  <Button onClick={() => handleRemove(item.problemId)} variant="danger">Remove</Button>{' '}
                 </td>
               </tr>
             ))}

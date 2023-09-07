@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";  
+import Button from 'react-bootstrap/Button';
 
 export default function Solving() {
   const [problem, setProblem] = useState(null);
@@ -75,7 +76,7 @@ export default function Solving() {
       <div>
         <h1><a target="_blank" rel="noreferrer noopener" href={problem.link}>{problem.title}</a></h1>
         <p>Time: {time} seconds</p>
-        <button onClick={handleSolved}>Solved</button>
+        <Button variant="success" onClick={handleSolved}>Solved</Button>{' '}
       </div>
     );
   }
