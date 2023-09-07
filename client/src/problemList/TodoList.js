@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { findDate } from "./SolvedList.js";
+import Button from 'react-bootstrap/Button';
 
 export async function handleRemove(problemId) {
   const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
@@ -90,8 +91,8 @@ export default function TodoList() {
                   <td>{item.difficulty}</td>
                   <td>{findDate(item.addedDate)}</td>
                   <td>
-                    <button onClick={() => handleStart(item.problemId)}>Start solving</button>
-                    <button onClick={() => handleRemove(item.problemId)}>Remove</button>
+                    <Button onClick={() => handleStart(item.problemId)} variant="warning">Start Solving</Button>{' '}
+                    <Button onClick={() => handleRemove(item.problemId)} variant="danger">Remove</Button>{' '}
                   </td>
                 </tr>
               ))}
