@@ -60,7 +60,7 @@ app.post('/logout', (req, res) => {
   res.cookie('token', '');
   res.status(200).json('ok');
 })
-// uuid4
+
 app.post('/problemAdd', async (req, res) => {
   const { link } = req.body;
   const { token } = req.cookies;
@@ -165,6 +165,11 @@ app.put('/problemUpdate', async(req, res) => {
   }
   return res.status(200).json(ret);
 });
+
+app.get('/', (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.send('hello');
+})
 
 const PORT = 4000;
 app.listen(PORT, async () => {
