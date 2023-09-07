@@ -38,7 +38,7 @@ export default function RegisterPage() {
       <input
         className="userAuthInput"
         type="password"
-        placeholder="password"
+        placeholder="password" 
         value={password}
         onChange={(e) => {
           setPassword(e.target.value);
