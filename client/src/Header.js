@@ -30,7 +30,6 @@ export default function Header() {
     })
     setUserInfo(null);
   }
-  
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -48,16 +47,13 @@ export default function Header() {
                 Skipped
               </NavDropdown.Item>
               <NavDropdown.Item href="/solvedList">Solved</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
             </NavDropdown>
             <Nav.Link onClick={logout}>Logout</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
+
     // <header>
     //   <Link to="/" className="logo">My Codeforces</Link>
     //   <nav>
@@ -79,5 +75,5 @@ export default function Header() {
     //     )}
     //   </nav>
     // </header>
-  )
+  );
 }
