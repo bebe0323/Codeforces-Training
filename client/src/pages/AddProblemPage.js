@@ -1,4 +1,7 @@
 import { useState} from "react";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 export default function AddProblemPage() {
   const [link, setLink] = useState('');
@@ -21,16 +24,17 @@ export default function AddProblemPage() {
 
   return (
     <div>
-      <form onSubmit={handleProblemAdd}>
-        <input
+      <InputGroup className="mb-3" style={{width: "50%"}}>
+        <Form.Control
+          type="text"
           placeholder="Problem link"
           value={link}
           onChange={(e) => {
             setLink(e.target.value);
           }}
         />
-        <button>Add</button>
-      </form>
+        <Button onClick={handleProblemAdd} variant="warning">Add</Button>
+      </InputGroup>
     </div>
   )
 }
