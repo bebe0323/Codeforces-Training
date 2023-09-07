@@ -8,6 +8,8 @@ export default function Solving() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
+    // include problem insider provdier
+    // use effect is called after paging is reloaded
     async function fetchData() {
       try {
         const response = await fetch(`http://localhost:4000/currentSolving`, {

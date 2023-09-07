@@ -60,7 +60,7 @@ app.post('/logout', (req, res) => {
   res.cookie('token', '');
   res.status(200).json('ok');
 })
-
+// uuid4
 app.post('/problemAdd', async (req, res) => {
   const { link } = req.body;
   const { token } = req.cookies;
