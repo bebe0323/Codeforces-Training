@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { handleRemove } from "./TodoList";
 import Button from 'react-bootstrap/Button';
+import { handleRemove } from "./TodoList.js";
+import { timeToString } from "../pages/Solving.js";
 
 export function findDate(solvedDate) {
   solvedDate = new Date(solvedDate);
   // Extract year, month, and date
   const year = solvedDate.getUTCFullYear();
-  const month = solvedDate.getUTCMonth() + 1; // Add 1 because getUTCMonth() returns a zero-based index (0 = January)
+  const month = solvedDate.getUTCMonth() + 1;
   const date = solvedDate.getUTCDate();
   return (
     `${year}/${month}/${date}`
@@ -43,13 +44,10 @@ export default function SolvedList() {
   function findSolvedDuration(startedDate, solvedDate) {
     startedDate = new Date(startedDate);
     solvedDate = new Date(solvedDate);
-    const seconds = Math.floor((solvedDate - startedDate) / 1000);
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
+    const diff = solvedDate - startedDate;
     return (
-      `Hours: ${hours}, Minutes: ${minutes}, Seconds: ${remainingSeconds}`
-    )
+      timeToString(diff)
+    );
   }
   
   return (
@@ -76,7 +74,9 @@ export default function SolvedList() {
                 <td>{findDate(item.solvedDate)}</td>
                 <td>{findSolvedDuration(item.startedDate, item.solvedDate)}</td>
                 <td>
-                  <Button onClick={() => handleRemove(item.problemId)} variant="danger">Remove</Button>{' '}
+                  <Button onClick={() => handleRemove(item.problemId)} variant="danger">
+                    Remove
+                  </Button>{' '}
                 </td>
               </tr>
             ))}
