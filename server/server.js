@@ -3,15 +3,16 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
+const secretKey = process.env.SECRET_KEY;
 
 import register from './auth/register.js';
 import login from './auth/login.js';
-import { secretKey } from './auth/createSecretKey.js';
 import problemAdd from './problem/problemAdd.js';
 import getProblemsList from './problem/getProblemsList.js';
 import problemRemove from './problem/problemRemove.js';
 import currentSolving from './problem/currentSolving.js';
-
 import problemUpdate from './problem/problemUpdate.js'
 
 // Set up web app
@@ -173,10 +174,13 @@ app.get('/', (req, res) => {
   res.send('hello');
 })
 
-const PORT = 4000;
+// const PORT = 4000;
+const PORT = process.env.PORT
+const mongodbUri = process.env.MONGODB_URI;
+
 app.listen(PORT, async () => {
   try {
-    await mongoose.connect('mongodb+srv://belgutei0323:HOFZn2lSvlnnnm61@cluster0.ay3soxd.mongodb.net/?retryWrites=true&w=majority');
+    await mongoose.connect(mongodbUri);
     console.log('Connected to mongo.db');
     console.log(`Listening on port ${PORT}`);
   } catch(e) {
