@@ -144,6 +144,7 @@ app.put('/problemUpdate', async(req, res) => {
     problemId,
     preStatus,
     status,
+    note
   } = req.body;
   // verifying token
   let username = '';
@@ -158,7 +159,8 @@ app.put('/problemUpdate', async(req, res) => {
     username,
     problemId,
     preStatus,
-    status
+    status,
+    note
   );
   if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);

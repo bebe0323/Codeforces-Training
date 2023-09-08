@@ -43,6 +43,7 @@ export default function SkippedList() {
               <th style={{width: '2.5em'}}>Difficulty</th>
               <th>Date solved</th>
               <th>Solved Duration</th>
+              <th>Note</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -54,6 +55,7 @@ export default function SkippedList() {
                 <td>{item.difficulty}</td>
                 <td>{findDate(item.finishedDate)}</td>
                 <td>{findSolvedDuration(item.startedDate, item.finishedDate)}</td>
+                <td>{item.note}</td>
                 <td>
                   <Button onClick={() => handleRemove(item.problemId)} variant="danger">
                     Remove

@@ -23,6 +23,7 @@ export default function Solving() {
   const [problem, setProblem] = useState(null);
   const [time, setTime] = useState(0);
   const [redirect, setRedirect] = useState(false);
+  const [note, setNote] = useState('');
 
   useEffect(() => {
     // include problem insider provdier
@@ -42,6 +43,7 @@ export default function Solving() {
               const currentDate = new Date();
               const difference = currentDate - startedDate;
               setTime(Math.floor((difference)));
+              setNote(data.note);
             })
         }
       } catch(error) {
@@ -68,7 +70,8 @@ export default function Solving() {
       body: JSON.stringify({
         problemId: problem.problemId,
         preStatus: 'solving',
-        status: status
+        status: status,
+        note: note
       }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -86,6 +89,10 @@ export default function Solving() {
   }
   if (redirect === 'skipped') {
     return <Navigate to={'/skippedList'} />
+  }
+
+  function handleNoteChange(e) {
+    setNote(e.target.value);
   }
   
   if (problem === null) {
@@ -109,6 +116,15 @@ export default function Solving() {
         <Button className="solved-button" variant="success" onClick={() => handleButton('solved')}>
           Solved
         </Button>
+        <br />
+        <textarea
+          className="notes"
+          type="text"
+          rows={10}
+          cols={50}
+          value={note}
+          onChange={handleNoteChange}
+        />
       </div>
     );
   }

@@ -37,6 +37,7 @@ export default function SolvedList() {
         if (response.status === 200) {
           response.json()
             .then(data => {
+              console.log(data);
               setProblemList(data);
             })
         } else {
@@ -62,6 +63,7 @@ export default function SolvedList() {
               <th style={{width: '2.5em'}}>Difficulty</th>
               <th>Date solved</th>
               <th>Solved Duration</th>
+              <th>Note</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -73,6 +75,7 @@ export default function SolvedList() {
                 <td>{item.difficulty}</td>
                 <td>{findDate(item.finishedDate)}</td>
                 <td>{findSolvedDuration(item.startedDate, item.finishedDate)}</td>
+                <td>{item.note}</td>
                 <td>
                   <Button onClick={() => handleRemove(item.problemId)} variant="danger">
                     Remove

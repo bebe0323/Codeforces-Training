@@ -4,7 +4,8 @@ export default async function problemUpdate(
   username,
   problemId,
   preStatus,
-  status
+  status,
+  note
 ) {
   const query = {
     username: username,
@@ -12,7 +13,8 @@ export default async function problemUpdate(
     status: preStatus
   };
   const update = {
-    status: status
+    status: status,
+    note: note
   };
   const options = {
     new: true // return updated problem
@@ -30,7 +32,7 @@ export default async function problemUpdate(
     update['startedDate'] = new Date();
   }
 
-  // status solving -> solved
+  // status solving -> (solved or skipped)
   if (preStatus === 'solving' && (status === 'solved' || status === 'skipped')) {
     update['finishedDate'] = new Date();
   }

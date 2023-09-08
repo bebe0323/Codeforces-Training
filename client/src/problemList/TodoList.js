@@ -52,7 +52,8 @@ export default function TodoList() {
       body: JSON.stringify({
         problemId: problemId,
         preStatus: 'todo',
-        status: 'solving'
+        status: 'solving',
+        note: ''
       }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

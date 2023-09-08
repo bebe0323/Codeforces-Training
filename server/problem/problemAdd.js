@@ -52,7 +52,8 @@ export default async function problemAdd(username, problemLink) {
       status: 'todo',
       addedDate: new Date(),
       startedDate: null,
-      finishedDate: null
+      finishedDate: null,
+      note: ''
     });
     await newProblem.save();
     return 'success';
