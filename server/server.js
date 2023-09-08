@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
-const secretKey = process.env.SECRET_KEY;
+export const secretKey = process.env.SECRET_KEY;
 
 import register from './auth/register.js';
 import login from './auth/login.js';
