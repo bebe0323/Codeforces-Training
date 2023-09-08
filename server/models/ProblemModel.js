@@ -11,7 +11,8 @@ const ProblemSchema = new Schema({
   status: String, // todo / solving / skipped / solved
   addedDate: Date,
   startedDate: Date,
-  finishedDate: Date
+  finishedDate: Date,
+  note: String
 });
 
 export const ProblemModel = model('problem', ProblemSchema);
