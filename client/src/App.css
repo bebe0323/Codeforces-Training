@@ -126,6 +126,10 @@ a.cfLink {
   margin-bottom: 40px;
 }
 
-.solved-button {
-  width: 240px;
+.skipped-button, .solved-button {
+  width: 180px;
+}
+
+.skipped-button {
+  margin-right: 20px;
 }

@@ -61,27 +61,31 @@ export default function Solving() {
     return () => clearInterval(interval);
   }, []);
 
-  async function handleSolved() {
+  async function handleButton(status) {
     // POST/PUT body
     const response = await fetch('http://localhost:4000/problemUpdate', {
       method: 'PUT',
       body: JSON.stringify({
         problemId: problem.problemId,
         preStatus: 'solving',
-        status: 'solved'
+        status: status
       }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
     if (response.status === 200) {
-      setRedirect(true);
+      setRedirect(status);
     } else {
       response.json()
         .then(data => alert(data));
     }
   }
-  if(redirect) {
-    return <Navigate to={'/solvedList'} />;
+
+  if(redirect === 'solved') {
+    return <Navigate to={`/solvedList`} />;
+  }
+  if (redirect === 'skipped') {
+    return <Navigate to={'/skippedList'} />
   }
   
   if (problem === null) {
@@ -99,9 +103,12 @@ export default function Solving() {
           </a>
         </h1>
         <h2 className="time">{timeToString(time)}</h2>
-        <Button className="solved-button" variant="success" onClick={handleSolved}>
-          Solved
+        <Button className="skipped-button" variant="danger" onClick={() => handleButton('skipped')}>
+          Skipped
         </Button>{' '}
+        <Button className="solved-button" variant="success" onClick={() => handleButton('solved')}>
+          Solved
+        </Button>
       </div>
     );
   }

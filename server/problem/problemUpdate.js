@@ -31,8 +31,8 @@ export default async function problemUpdate(
   }
 
   // status solving -> solved
-  if (preStatus === 'solving' && status === 'solved') {
-    update['solvedDate'] = new Date();
+  if (preStatus === 'solving' && (status === 'solved' || status === 'skipped')) {
+    update['finishedDate'] = new Date();
   }
   
   const problem = await ProblemModel.findOneAndUpdate(

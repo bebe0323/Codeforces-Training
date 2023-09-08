@@ -3,14 +3,23 @@ import Button from 'react-bootstrap/Button';
 import { handleRemove } from "./TodoList.js";
 import { timeToString } from "../pages/Solving.js";
 
-export function findDate(solvedDate) {
-  solvedDate = new Date(solvedDate);
+export function findDate(finishedDate) {
+  finishedDate = new Date(finishedDate);
   // Extract year, month, and date
-  const year = solvedDate.getUTCFullYear();
-  const month = solvedDate.getUTCMonth() + 1;
-  const date = solvedDate.getUTCDate();
+  const year = finishedDate.getUTCFullYear();
+  const month = finishedDate.getUTCMonth() + 1;
+  const date = finishedDate.getUTCDate();
   return (
     `${year}/${month}/${date}`
+  );
+}
+
+export function findSolvedDuration(startedDate, finishedDate) {
+  startedDate = new Date(startedDate);
+  finishedDate = new Date(finishedDate);
+  const diff = finishedDate - startedDate;
+  return (
+    timeToString(diff)
   );
 }
 
@@ -18,7 +27,7 @@ export default function SolvedList() {
   const [problemList, setProblemList] = useState(null);
   useEffect(() => {
     // using async function here to avoid use async TodoList()
-    async function fetchData() {
+    async function fetchSolved() {
       try {
         const response = await fetch(`http://localhost:4000/problems/${'solved'}`, {
           method: 'GET',
@@ -38,17 +47,8 @@ export default function SolvedList() {
         console.error('Error fetching data: ', error);
       }
     }
-    fetchData();
+    fetchSolved();
   }, []);
-
-  function findSolvedDuration(startedDate, solvedDate) {
-    startedDate = new Date(startedDate);
-    solvedDate = new Date(solvedDate);
-    const diff = solvedDate - startedDate;
-    return (
-      timeToString(diff)
-    );
-  }
   
   return (
     <div>
@@ -71,8 +71,8 @@ export default function SolvedList() {
                 <td><a target="_blank" rel="noreferrer noopener" className="cfLink" href={item.link}>{item.problemId}</a></td>
                 <td>{item.title}</td>
                 <td>{item.difficulty}</td>
-                <td>{findDate(item.solvedDate)}</td>
-                <td>{findSolvedDuration(item.startedDate, item.solvedDate)}</td>
+                <td>{findDate(item.finishedDate)}</td>
+                <td>{findSolvedDuration(item.startedDate, item.finishedDate)}</td>
                 <td>
                   <Button onClick={() => handleRemove(item.problemId)} variant="danger">
                     Remove
