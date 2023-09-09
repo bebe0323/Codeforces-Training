@@ -38,6 +38,7 @@ app.post('/register', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
+  console.log(username, password);
   const ret = await login(username, password);
   if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
@@ -175,7 +176,7 @@ app.get('/', (req, res) => {
 })
 
 // const PORT = 4000;
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 const mongodbUri = process.env.MONGODB_URI;
 
 app.listen(PORT, async () => {
