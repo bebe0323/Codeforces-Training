@@ -3,3 +3,7 @@
 
 # Ignore node_modules directory
 node_modules/
+
+server/.env
+
+server/node_modules/
