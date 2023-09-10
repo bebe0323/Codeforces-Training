@@ -3,17 +3,19 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+config();
 
 import register from './auth/register.js';
 import login from './auth/login.js';
-import { secretKey } from './auth/createSecretKey.js';
 import problemAdd from './problem/problemAdd.js';
 import getProblemsList from './problem/getProblemsList.js';
 import problemRemove from './problem/problemRemove.js';
 import currentSolving from './problem/currentSolving.js';
-
 import problemUpdate from './problem/problemUpdate.js'
 
+export const secretKey = process.env.SECRET_KEY;
+console.log(`secret key: ${secretKey}`);
 // Set up web app
 const app = express();
 // Use middleware that allows for access from other domains
@@ -173,7 +175,8 @@ app.get('/', (req, res) => {
   res.send('hello');
 })
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
+
 app.listen(PORT, async () => {
   try {
     await mongoose.connect('mongodb+srv://belgutei0323:HOFZn2lSvlnnnm61@cluster0.ay3soxd.mongodb.net/?retryWrites=true&w=majority');

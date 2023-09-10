@@ -1,7 +1,7 @@
 import { UserModel } from '../models/UserModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { secretKey } from './createSecretKey.js';
+import { secretKey } from '../server.js';
 
 export default async function login(username, password) {
   const userDb = await UserModel.findOne({ username: username });

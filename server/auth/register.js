@@ -1,6 +1,6 @@
 import { UserModel } from '../models/UserModel.js';
 import bcrypt from 'bcryptjs';
-import { secretKey } from './createSecretKey.js';
+import { secretKey } from '../server.js';
 
 export default async function register(username, password) {
   if (username === '') {
