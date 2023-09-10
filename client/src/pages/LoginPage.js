@@ -4,7 +4,7 @@ import { UserContext } from "../UserContext";
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
-
+import axios from 'axios';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -13,22 +13,16 @@ export default function LoginPage() {
   const {setUserInfo} = useContext(UserContext);
   async function handleLogin(e) {
     e.preventDefault();
-    const response = await fetch('http://localhost:4000/login', {
-      method: 'POST',
-      body: JSON.stringify({ username, password }),
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.status === 200) {
-      response.json()
-        .then(data => {
-          setUserInfo(data);
-          setRedirect(true);
-          alert('login successful');
-        })
-    } else {
-      response.json()
-        .then(data => alert(data))
+    try {
+      const response = await axios.post('/login', {
+        username,
+        password
+      });
+      setUserInfo(response.data);
+      setRedirect(true);
+      alert('Login successful');
+    } catch(error) {
+      alert(error.response.data);
     }
   }
   if (redirect) {

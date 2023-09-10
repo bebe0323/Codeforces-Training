@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -10,17 +11,14 @@ export default function RegisterPage() {
   const [redirect, setRedirect] = useState(false);
   async function handleRegister(e) {
     e.preventDefault();
-    const response = await fetch('http://localhost:4000/register', {
-      method: 'POST',
-      body: JSON.stringify({ username, password }),
-      headers: { 'Content-Type': 'application/json' }
-    });
-    if (response.status === 200) {
+    try {
+      const response = await axios.post('/register', {
+        username, password
+      });
+      alert('Registration successful');
       setRedirect(true);
-      alert('successful registration');
-    } else {
-      response.json()
-        .then(data => alert(data))
+    } catch(error) {
+      console.log(error.response.data);
     }
   }
   if (redirect === true) {

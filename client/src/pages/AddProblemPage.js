@@ -2,23 +2,18 @@ import { useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import axios from 'axios';
 
 export default function AddProblemPage() {
   const [link, setLink] = useState('');
   async function handleProblemAdd(e) {
     e.preventDefault();
-    const response = await fetch('http://localhost:4000/problemAdd', {
-      method: 'POST',
-      body: JSON.stringify({ link }),
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.status === 200) {
+    try {
+      await axios.post('/problemAdd', { link });
       alert('successfully added');
       setLink('');
-    } else {
-      response.json()
-        .then(data => alert(data))
+    } catch(error) {
+      alert(error.response.data);
     }
   }
 

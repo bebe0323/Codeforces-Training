@@ -1,30 +1,31 @@
-import { Link } from "react-router-dom"
-import { useEffect, useContext } from "react"
+import { Link, useSearchParams } from "react-router-dom"
+import { useEffect, useContext, useState } from "react"
 import { UserContext } from "./UserContext";
+import { Navigate } from "react-router-dom";
+import axios from 'axios';
 
 export default function Header() {
   const {userInfo, setUserInfo} = useContext(UserContext);
-
+  
   useEffect(() => {
-    fetch('http://localhost:4000/profile', {
-      method: 'GET',
-      credentials: 'include',
-    })
+    axios.get('/profile')
       .then(response => {
-        return response.json()
+        setUserInfo(response.data.username);
       })
-      .then(data => {
-        setUserInfo(data.username);
-      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   }, []);
 
-  function logout() {
+  async function logout() {
     console.log('log out pressed');
-    fetch('http://localhost:4000/logout', {
-      method: 'POST',
-      credentials: 'include'
-    })
-    setUserInfo(null);
+    try {
+      await axios.post('/logout');
+      setUserInfo(null);
+      window.location.href = '/';
+    } catch(error) {
+      console.log(error);
+    }
   }
   return(
     <header>

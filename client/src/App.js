@@ -11,6 +11,10 @@ import TodoList from './problemList/TodoList';
 import SolvedList from './problemList/SolvedList';
 import Solving from './pages/Solving';
 
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:4000';
+axios.defaults.withCredentials = true;
+
 function App() {
   return (
     <UserContextProvider>

@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { handleRemove } from "./TodoList.js";
 import { findDate } from "./SolvedList.js";
 import { findSolvedDuration } from "./SolvedList.js";
+import axios from 'axios';
 
 export default function SkippedList() {
   const [problemList, setProblemList] = useState(null);
@@ -10,22 +11,10 @@ export default function SkippedList() {
     // using async function here to avoid use async TodoList()
     async function fetchSolved() {
       try {
-        const response = await fetch(`http://localhost:4000/problems/${'skipped'}`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
-        if (response.status === 200) {
-          response.json()
-            .then(data => {
-              setProblemList(data);
-            })
-        } else {
-          response.json()
-            .then(data => alert(data))
-        }
-      } catch (error) {
-        console.error('Error fetching data: ', error);
+        const response = await axios.get(`/problems/${'skipped'}`);
+        setProblemList(response.data);
+      } catch(error) {
+        alert(error.response.data);
       }
     }
     fetchSolved();

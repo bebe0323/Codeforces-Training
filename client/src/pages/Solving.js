@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";  
+import { Navigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 export function timeToString(time) {
   const diffInHrs = time / 3600000;
@@ -29,25 +30,17 @@ export default function Solving() {
     // include problem insider provdier
     // use effect is called after paging is reloaded
     async function fetchData() {
+      // try {
       try {
-        const response = await fetch(`http://localhost:4000/currentSolving`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
-        if (response.status === 200) {
-          response.json()
-            .then(data => {
-              setProblem(data);
-              const startedDate = new Date(data.startedDate);
-              const currentDate = new Date();
-              const difference = currentDate - startedDate;
-              setTime(Math.floor((difference)));
-              setNote(data.note);
-            })
-        }
+        const { data } = await axios.get(`/currentSolving`);
+        setProblem(data);
+        const startedDate = new Date(data.startedDate);
+        const currentDate = new Date();
+        const difference = currentDate - startedDate;
+        setTime(Math.floor((difference)));
+        setNote(data.note);
       } catch(error) {
-        console.log('Error fetching data: ', error);
+        alert(error.response.data);
       }
     }
     fetchData();
@@ -65,22 +58,16 @@ export default function Solving() {
 
   async function handleButton(status) {
     // POST/PUT body
-    const response = await fetch('http://localhost:4000/problemUpdate', {
-      method: 'PUT',
-      body: JSON.stringify({
+    try {
+      await axios.put(`/problemUpdate`, {
         problemId: problem.problemId,
         preStatus: 'solving',
         status: status,
         note: note
-      }),
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.status === 200) {
+      });
       setRedirect(status);
-    } else {
-      response.json()
-        .then(data => alert(data));
+    } catch(error) {
+      alert(error.response.data);
     }
   }
 

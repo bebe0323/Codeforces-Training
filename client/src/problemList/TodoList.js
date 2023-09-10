@@ -2,18 +2,14 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { findDate } from "./SolvedList.js";
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 
 export async function handleRemove(problemId) {
-  const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-  });
-  if (response.status === 200) {
+  try {
+    await axios.delete(`/remove/${problemId}`);
     window.location.reload();
-  } else {
-    response.json()
-      .then(error => console.log(error))
+  } catch(error) {
+    alert(error.response.data);
   }
 }
 
@@ -25,44 +21,26 @@ export default function TodoList() {
     // using async function here to avoid use async TodoList()
     async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:4000/problems/${'todo'}`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-        });
-        if (response.status === 200) {
-          response.json()
-            .then(data => {
-              setProblemList(data);
-            })
-        } else {
-          response.json()
-            .then(data => alert(data))
-        }
-      } catch (error) {
-        console.error('Error fetching data: ', error);
+        const response = await axios.get(`/problems/${'todo'}`);
+        setProblemList(response.data);
+      } catch(error) {
+        alert(error.response.data);
       }
     }
     fetchData();
   }, []);
 
   async function handleStart(problemId) {
-    const response = await fetch(`http://localhost:4000/problemUpdate`, {
-      method: 'PUT',
-      body: JSON.stringify({
+    try {
+      await axios.put(`/problemUpdate`, {
         problemId: problemId,
         preStatus: 'todo',
         status: 'solving',
         note: ''
-      }),
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.status === 200) {
+      });
       setRedirect(true);
-    } else {
-      response.json()
-        .then(data => alert(data))
+    } catch(error) {
+      alert(error.response.data);
     }
   }
   if (redirect) {
