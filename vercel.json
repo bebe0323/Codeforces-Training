@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd client && npm install",
+  "outputDirectory": "client/dist",
+  "rewrites": [
+    {
+      "source": "/server/(.*)",
+      "destination": "/server/server.js"
+    }
+  ]
+}
