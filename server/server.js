@@ -28,7 +28,7 @@ app.use(express.json());
 // Use middleware to pass cookies
 app.use(cookieParser());
 
-app.post('/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
   const { username, password } = req.body;
   const ret = await register(username, password);
   if (typeof ret === 'object' && 'error' in ret) {
@@ -37,7 +37,7 @@ app.post('/register', async (req, res) => {
   res.status(200).json('ok');
 });
 
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   const ret = await login(username, password);
   if (typeof ret === 'object' && 'error' in ret) {
@@ -47,7 +47,7 @@ app.post('/login', async (req, res) => {
   return res.status(200).json(username);
 });
 
-app.get('/profile', async (req, res) => {
+app.get('/api/profile', async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, secretKey, {}, (err, info) => {
     if (err) {
@@ -57,13 +57,13 @@ app.get('/profile', async (req, res) => {
   });
 });
 
-app.post('/logout', (req, res) => {
+app.post('/api/logout', (req, res) => {
   // clearing cookie
   res.cookie('token', '');
   res.status(200).json('ok');
 })
 
-app.post('/problemAdd', async (req, res) => {
+app.post('/api/problemAdd', async (req, res) => {
   const { link } = req.body;
   const { token } = req.cookies;
   let username = '';
@@ -82,7 +82,7 @@ app.post('/problemAdd', async (req, res) => {
   return res.status(200).json('success');
 });
 
-app.get('/problems/:status', async (req, res) => {
+app.get('/api/problems/:status', async (req, res) => {
   const { token } = req.cookies;
   const status = req.params.status;
   // verifying token
@@ -101,7 +101,7 @@ app.get('/problems/:status', async (req, res) => {
   return res.status(200).json(todoList);
 });
 
-app.delete('/remove/:problemId', async (req, res) => {
+app.delete('/api/remove/:problemId', async (req, res) => {
   const { token } = req.cookies;
   const problemId = req.params.problemId;
   // verifying token
@@ -121,7 +121,7 @@ app.delete('/remove/:problemId', async (req, res) => {
 });
 
 /* Getting the problem that user is currently solving */
-app.get('/currentSolving', async (req, res) => {
+app.get('/api/currentSolving', async (req, res) => {
   const { token } = req.cookies;
   // verifying token
   let username = '';
@@ -140,7 +140,7 @@ app.get('/currentSolving', async (req, res) => {
 });
 
 /* Problem solved */
-app.put('/problemUpdate', async(req, res) => {
+app.put('/api/problemUpdate', async(req, res) => {
   const { token } = req.cookies;
   const {
     problemId,
@@ -170,10 +170,10 @@ app.put('/problemUpdate', async(req, res) => {
   return res.status(200).json(ret);
 });
 
-app.get('/', (req, res) => {
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.send('hello');
-})
+// app.get('/', (req, res) => {
+//   res.setHeader("Access-Control-Allow-Credentials", "true");
+//   res.send('hello');
+// })
 
 const PORT = process.env.PORT || 4000;
 
