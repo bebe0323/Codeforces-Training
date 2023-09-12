@@ -14,6 +14,5 @@ export default async function login(username, password) {
   }
   // logged in
   const token = jwt.sign({ username, id: userDb._id}, secretKey, {});
-  console.log(`Login token: ${token}`);
   return token;
 }

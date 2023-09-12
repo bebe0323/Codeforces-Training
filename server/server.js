@@ -50,7 +50,15 @@ app.post('/login', async (req, res) => {
   if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }
-  res.cookie('token', ret);
+  res.header('Content-Type', 'application/json;charset=UTF-8');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  res.cookie('token', ret, {
+    httpOnly: false
+  });
   return res.status(200).json(username);
 });
 
