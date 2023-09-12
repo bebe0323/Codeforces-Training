@@ -6,7 +6,7 @@ export default function Header() {
   const {userInfo, setUserInfo} = useContext(UserContext);
 
   useEffect(() => {
-    fetch('https://codeforces-training-m2t2.vercel.app/profile', {
+    fetch('https://cp-training-backend.onrender.com/profile', {
       method: 'GET',
       credentials: 'include',
     })
@@ -20,7 +20,7 @@ export default function Header() {
 
   function logout() {
     console.log('log out pressed');
-    fetch('https://codeforces-training-m2t2.vercel.app/logout', {
+    fetch('https://cp-training-backend.onrender.com/logout', {
       method: 'POST',
       credentials: 'include'
     })

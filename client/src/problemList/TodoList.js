@@ -4,7 +4,7 @@ import { findDate } from "./SolvedList.js";
 import Button from 'react-bootstrap/Button';
 
 export async function handleRemove(problemId) {
-  const response = await fetch(`https://codeforces-training-m2t2.vercel.app/remove/${problemId}`, {
+  const response = await fetch(`https://cp-training-backend.onrender.com/remove/${problemId}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -25,7 +25,7 @@ export default function TodoList() {
     // using async function here to avoid use async TodoList()
     async function fetchData() {
       try {
-        const response = await fetch(`https://codeforces-training-m2t2.vercel.app/problems/${'todo'}`, {
+        const response = await fetch(`https://cp-training-backend.onrender.com/problems/${'todo'}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -47,7 +47,7 @@ export default function TodoList() {
   }, []);
 
   async function handleStart(problemId) {
-    const response = await fetch(`https://codeforces-training-m2t2.vercel.app/problemUpdate`, {
+    const response = await fetch(`https://cp-training-backend.onrender.com/problemUpdate`, {
       method: 'PUT',
       body: JSON.stringify({
         problemId: problemId,

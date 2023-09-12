@@ -10,7 +10,7 @@ export default function RegisterPage() {
   const [redirect, setRedirect] = useState(false);
   async function handleRegister(e) {
     e.preventDefault();
-    const response = await fetch('https://codeforces-training-m2t2.vercel.app/register', {
+    const response = await fetch('https://cp-training-backend.onrender.com/register', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' }

@@ -7,7 +7,7 @@ export default function AddProblemPage() {
   const [link, setLink] = useState('');
   async function handleProblemAdd(e) {
     e.preventDefault();
-    const response = await fetch('https://codeforces-training-m2t2.vercel.app/problemAdd', {
+    const response = await fetch('https://cp-training-backend.onrender.com/problemAdd', {
       method: 'POST',
       body: JSON.stringify({ link }),
       headers: { 'Content-Type': 'application/json' },

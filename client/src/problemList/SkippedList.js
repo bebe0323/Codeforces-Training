@@ -10,7 +10,7 @@ export default function SkippedList() {
     // using async function here to avoid use async TodoList()
     async function fetchSolved() {
       try {
-        const response = await fetch(`https://codeforces-training-m2t2.vercel.app/problems/${'skipped'}`, {
+        const response = await fetch(`https://cp-training-backend.onrender.com/problems/${'skipped'}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

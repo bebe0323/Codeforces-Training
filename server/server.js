@@ -19,7 +19,7 @@ const app = express();
 // Use middleware that allows for access from other domains
 app.use(cors({
   credentials: true,
-  origin: 'https://cp-training-backend.onrender.com'
+  origin: 'https://codeforces-training-m2t2.vercel.app'
 }));
 app.use(function(req, res, next) {
   res.header('Content-Type', 'application/json;charset=UTF-8')

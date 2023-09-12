@@ -13,7 +13,7 @@ export default function LoginPage() {
   const {setUserInfo} = useContext(UserContext);
   async function handleLogin(e) {
     e.preventDefault();
-    const response = await fetch('https://codeforces-training-m2t2.vercel.app/login', {
+    const response = await fetch('https://cp-training-backend.onrender.com/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },
