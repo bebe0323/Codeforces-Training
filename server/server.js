@@ -19,7 +19,7 @@ const app = express();
 // Use middleware that allows for access from other domains
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:3000'
+  origin: 'https://cp-training-backend.onrender.com'
 }));
 app.use(function(req, res, next) {
   res.header('Content-Type', 'application/json;charset=UTF-8')

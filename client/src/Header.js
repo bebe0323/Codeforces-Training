@@ -6,7 +6,7 @@ export default function Header() {
   const {userInfo, setUserInfo} = useContext(UserContext);
 
   useEffect(() => {
-    fetch('http://localhost:4000/profile', {
+    fetch('https://codeforces-training-m2t2.vercel.app/profile', {
       method: 'GET',
       credentials: 'include',
     })
@@ -20,7 +20,7 @@ export default function Header() {
 
   function logout() {
     console.log('log out pressed');
-    fetch('http://localhost:4000/logout', {
+    fetch('https://codeforces-training-m2t2.vercel.app/logout', {
       method: 'POST',
       credentials: 'include'
     })
