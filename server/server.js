@@ -60,8 +60,9 @@ app.post('/login', async (req, res) => {
     'Origin, X-Requested-With, Content-Type, Accept'
   );
   res.cookie('token', ret, {
-    httpOnly: false,
+    httpOnly: true,
     sameSite: 'none',
+    secure: true,
   });
   return res.status(200).json(username);
 });
