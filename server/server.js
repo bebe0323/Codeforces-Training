@@ -21,6 +21,15 @@ app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000'
 }));
+app.use(function(req, res, next) {
+  res.header('Content-Type', 'application/json;charset=UTF-8')
+  res.header('Access-Control-Allow-Credentials', true)
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
+  next()
+});
 // Use middleware that allows us to access the JSON body of requests
 app.use(express.json());
 // Use middleware to pass cookies
