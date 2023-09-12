@@ -19,8 +19,8 @@ export default function LoginPage() {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
+    console.log(response);
     if (response.status === 200) {
-      console.log(response);
       response.json()
         .then(data => {
           setUserInfo(data);
