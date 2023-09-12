@@ -26,15 +26,15 @@ app.use(express.json());
 // Use middleware to pass cookies
 app.use(cookieParser());
 
-app.use(function(req, res, next) {
-  res.header('Content-Type', 'application/json;charset=UTF-8')
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
-  next()
-});
+// app.use(function(req, res, next) {
+//   res.header('Content-Type', 'application/json;charset=UTF-8')
+//   res.header('Access-Control-Allow-Credentials', true);
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept'
+//   )
+//   next()
+// });
 
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
@@ -53,12 +53,12 @@ app.post('/login', async (req, res) => {
   }
   console.log(username, password);
   console.log(`token: ${ret}`);
-  res.header('Content-Type', 'application/json;charset=UTF-8');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
+  // res.header('Content-Type', 'application/json;charset=UTF-8');
+  // res.header('Access-Control-Allow-Credentials', true);
+  // res.header(
+  //   'Access-Control-Allow-Headers',
+  //   'Origin, X-Requested-With, Content-Type, Accept'
+  // );
   res.cookie('token', ret, {
     httpOnly: true,
     sameSite: 'none',
