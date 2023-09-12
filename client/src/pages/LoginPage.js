@@ -20,6 +20,7 @@ export default function LoginPage() {
       credentials: 'include',
     });
     if (response.status === 200) {
+      console.log(response);
       response.json()
         .then(data => {
           setUserInfo(data);
