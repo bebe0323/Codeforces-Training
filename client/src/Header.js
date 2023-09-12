@@ -19,7 +19,6 @@ export default function Header() {
   }, []);
 
   function logout() {
-    console.log('log out pressed');
     fetch('https://cp-training-backend.onrender.com/logout', {
       method: 'POST',
       credentials: 'include'
