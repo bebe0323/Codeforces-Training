@@ -21,19 +21,20 @@ app.use(cors({
   credentials: true,
   origin: 'https://codeforces-training-m2t2.vercel.app'
 }));
+// Use middleware that allows us to access the JSON body of requests
+app.use(express.json());
+// Use middleware to pass cookies
+app.use(cookieParser());
+
 app.use(function(req, res, next) {
   res.header('Content-Type', 'application/json;charset=UTF-8')
-  res.header('Access-Control-Allow-Credentials', true)
+  res.header('Access-Control-Allow-Credentials', true);
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
   )
   next()
 });
-// Use middleware that allows us to access the JSON body of requests
-app.use(express.json());
-// Use middleware to pass cookies
-app.use(cookieParser());
 
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
@@ -50,6 +51,8 @@ app.post('/login', async (req, res) => {
   if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }
+  console.log(username, password);
+  console.log(`token: ${ret}`);
   res.header('Content-Type', 'application/json;charset=UTF-8');
   res.header('Access-Control-Allow-Credentials', true);
   res.header(
@@ -100,6 +103,7 @@ app.post('/problemAdd', async (req, res) => {
 app.get('/problems/:status', async (req, res) => {
   const { token } = req.cookies;
   const status = req.params.status;
+  console.log(`token problems: ${token}`);
   // verifying token
   let username = '';
   jwt.verify(token, secretKey, {}, (err, info) => {
