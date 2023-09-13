@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useContext } from "react"
 import { UserContext } from "./UserContext";
 
 export default function Header() {
+  let navigate = useNavigate();
   const {userInfo, setUserInfo} = useContext(UserContext);
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function Header() {
       credentials: 'include'
     })
     setUserInfo(null);
+    navigate('/');
   }
   return(
     <header>
