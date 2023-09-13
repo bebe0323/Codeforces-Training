@@ -21,15 +21,6 @@ app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000'
 }));
-app.use(function(req, res, next) {
-  res.header('Content-Type', 'application/json;charset=UTF-8')
-  res.header('Access-Control-Allow-Credentials', true)
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
-  next()
-});
 // Use middleware that allows us to access the JSON body of requests
 app.use(express.json());
 // Use middleware to pass cookies
@@ -50,7 +41,11 @@ app.post('/login', async (req, res) => {
   if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }
-  res.cookie('token', ret);
+  res.cookie('token', ret, {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+  });
   return res.status(200).json(username);
 });
 
@@ -66,7 +61,11 @@ app.get('/profile', async (req, res) => {
 
 app.post('/logout', (req, res) => {
   // clearing cookie
-  res.cookie('token', '');
+  res.cookie('token', '', {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+  });
   res.status(200).json('ok');
 })
 

@@ -15,7 +15,6 @@ export default async function register(username, password) {
   }
   // hashing password
   const hash = bcrypt.hashSync(password, secretKey);
-  console.log(`Register hash: ${hash}`);
   const newUser = new UserModel({
     username: username,
     password: hash

@@ -19,7 +19,6 @@ export default function Header() {
   }, []);
 
   function logout() {
-    console.log('log out pressed');
     fetch('http://localhost:4000/logout', {
       method: 'POST',
       credentials: 'include'
