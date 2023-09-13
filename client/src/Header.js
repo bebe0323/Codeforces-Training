@@ -3,7 +3,7 @@ import { useEffect, useContext } from "react"
 import { UserContext } from "./UserContext";
 
 export default function Header() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const {userInfo, setUserInfo} = useContext(UserContext);
 
   useEffect(() => {
