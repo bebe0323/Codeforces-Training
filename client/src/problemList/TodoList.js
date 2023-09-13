@@ -1,23 +1,10 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { findDate } from "./SolvedList.js";
 import Button from 'react-bootstrap/Button';
 
-export async function handleRemove(problemId) {
-  const response = await fetch(`https://cp-training-backend.onrender.com/remove/${problemId}`, {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-  });
-  if (response.status === 200) {
-    window.location.reload();
-  } else {
-    response.json()
-      .then(error => console.log(error))
-  }
-}
-
 export default function TodoList() {
+  const navigate = useNavigate();
   const [problemList, setProblemList] = useState(null);
   const [redirect, setRedirect] = useState(false);
 
@@ -65,6 +52,22 @@ export default function TodoList() {
         .then(data => alert(data))
     }
   }
+  
+  async function handleRemove(problemId) {
+    const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.status === 200) {
+      navigate('/todoList');
+      window.location.reload();
+    } else {
+      response.json()
+        .then(error => console.log(error))
+    }
+  }
+
   if (redirect) {
     return <Navigate to={'/solving'} />
   }
