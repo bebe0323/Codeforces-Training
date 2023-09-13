@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Button from 'react-bootstrap/Button';
-import { handleRemove } from "./TodoList.js";
 import { findDate } from "./SolvedList.js";
 import { findSolvedDuration } from "./SolvedList.js";
 
+
 export default function SkippedList() {
+  const navigate = useNavigate();
   const [problemList, setProblemList] = useState(null);
+
   useEffect(() => {
     // using async function here to avoid use async TodoList()
     async function fetchSolved() {
@@ -30,6 +34,21 @@ export default function SkippedList() {
     }
     fetchSolved();
   }, []);
+
+  async function handleRemove(problemId) {
+    const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    if (response.status === 200) {
+      navigate('/skippedList');
+      window.location.reload();
+    } else {
+      response.json()
+        .then(error => console.log(error))
+    }
+  }
   
   return (
     <div>
