@@ -54,7 +54,7 @@ export default function TodoList() {
   }
   
   async function handleRemove(problemId) {
-    const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
+    const response = await fetch(`https://cp-training-backend.onrender.com/remove/${problemId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
