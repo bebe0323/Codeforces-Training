@@ -113,7 +113,6 @@ app.get('/problems/:status', async (req, res) => {
 app.delete('/remove/:problemId', async (req, res) => {
   const { token } = req.cookies;
   const problemId = req.params.problemId;
-  console.log(`problem delete: ${problemId}`);
   // verifying token
   let username = '';
   jwt.verify(token, secretKey, {}, (err, info) => {
