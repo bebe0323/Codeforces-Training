@@ -22,7 +22,7 @@ const app = express();
 // Use middleware that allows for access from other domains
 app.use(cors({
   credentials: true,
-  origin: 'https://cp-training-frontend.onrender.com'
+  origin: 'http://localhost:3000'
 }));
 // Use middleware that allows us to access the JSON body of requests
 app.use(express.json());
