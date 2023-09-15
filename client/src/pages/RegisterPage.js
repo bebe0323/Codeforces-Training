@@ -21,7 +21,7 @@ export default function RegisterPage() {
     setLoading(false);
     if (response.status === 200) {
       setRedirect(true);
-      alert('successful registration');
+      // alert('successful registration');
     } else {
       response.json()
         .then(data => alert(data))
