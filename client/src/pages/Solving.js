@@ -26,7 +26,6 @@ export default function Solving() {
   const [note, setNote] = useState('');
 
   useEffect(() => {
-    // include problem insider provdier
     // use effect is called after paging is reloaded
     async function fetchData() {
       try {
@@ -45,6 +44,13 @@ export default function Solving() {
               setTime(Math.floor((difference)));
               setNote(data.note);
             })
+        } else if (response.status === 401) {
+          // unauthorised
+          response.json()
+            .then(data => {
+              alert(data);
+              setRedirect('login');
+            })
         }
       } catch(error) {
         console.log('Error fetching data: ', error);
@@ -54,10 +60,10 @@ export default function Solving() {
   }, []);
 
   useEffect(() => {
-    // Create an interval that increments the time every 0.1 second
+    // Create an interval that increments the time every 0.3 second
     const interval = setInterval(() => {
-      setTime((prevTime) => prevTime + 100);
-    }, 100);
+      setTime((prevTime) => prevTime + 300);
+    }, 300);
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
@@ -89,6 +95,9 @@ export default function Solving() {
   }
   if (redirect === 'skipped') {
     return <Navigate to={'/skippedList'} />
+  }
+  if (redirect === 'login') {
+    return <Navigate to={'/login'} />
   }
 
   function handleNoteChange(e) {

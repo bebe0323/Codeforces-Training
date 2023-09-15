@@ -9,16 +9,19 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [buttonMessage, setButtonMessage] = useState('Register');
 
   async function handleRegister(e) {
     e.preventDefault();
     setLoading(true);
+    setButtonMessage('Registering');
     const response = await fetch('https://cp-training-backend.onrender.com/register', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' }
     });
     setLoading(false);
+    setButtonMessage('Register');
     if (response.status === 200) {
       setRedirect(true);
       // alert('successful registration');
@@ -63,12 +66,15 @@ export default function RegisterPage() {
             }}
           />
         </FloatingLabel>
-        {loading === true && (
+        <Button disabled={loading} className="authSubmitButton" onClick={handleRegister} variant="secondary">
+          {buttonMessage}
+        </Button>
+        {/* {loading === true && (
           <Button disabled={loading} className="authSubmitButton" onClick={handleRegister} variant="secondary">Registering</Button>
         )}
         {loading === false && (
           <Button className="authSubmitButton" onClick={handleRegister} variant="secondary">Register</Button>
-        )}
+        )} */}
       </form>
     </>
   )
