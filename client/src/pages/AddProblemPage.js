@@ -31,7 +31,7 @@ export default function AddProblemPage() {
 
   async function handleProblemAdd(e) {
     e.preventDefault();
-    const response = await fetch('https://cp-training-backend.onrender.com/problemAdd', {
+    const response = await fetch('http://localhost:4000/problemAdd', {
       method: 'POST',
       body: JSON.stringify({ link }),
       headers: { 'Content-Type': 'application/json' },
