@@ -4,7 +4,6 @@ import { UserContext } from "../UserContext";
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
-import ReactLoading from 'react-loading';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
