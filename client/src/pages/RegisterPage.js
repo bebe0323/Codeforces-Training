@@ -13,7 +13,7 @@ export default function RegisterPage() {
   async function handleRegister(e) {
     e.preventDefault();
     setLoading(true);
-    const response = await fetch('/api/register', {
+    const response = await fetch('https://cp-training-backend.onrender.com/register', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' }

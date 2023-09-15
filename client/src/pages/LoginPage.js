@@ -15,7 +15,7 @@ export default function LoginPage() {
   async function handleLogin(e) {
     e.preventDefault();
     setLoading(true);
-    const response = await fetch('/api/login', {
+    const response = await fetch('https://cp-training-backend.onrender.com/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },

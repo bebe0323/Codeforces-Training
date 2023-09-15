@@ -30,7 +30,7 @@ export default function Solving() {
     // use effect is called after paging is reloaded
     async function fetchData() {
       try {
-        const response = await fetch(`/api/currentSolving`, {
+        const response = await fetch(`https://cp-training-backend.onrender.com/currentSolving`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -65,7 +65,7 @@ export default function Solving() {
 
   async function handleButton(status) {
     // POST/PUT body
-    const response = await fetch('/api/problemUpdate', {
+    const response = await fetch('https://cp-training-backend.onrender.com/problemUpdate', {
       method: 'PUT',
       body: JSON.stringify({
         problemId: problem.problemId,
