@@ -22,7 +22,7 @@ const app = express();
 // Use middleware that allows for access from other domains
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:3000'
+  origin: 'https://cp-training-frontend.onrender.com'
 }));
 // Use middleware that allows us to access the JSON body of requests
 app.use(express.json());
@@ -32,7 +32,6 @@ app.use(cookieParser());
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   const ret = await register(username, password);
-  await delay(3000);
   if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }
@@ -42,7 +41,6 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const ret = await login(username, password);
-  await delay(3000);
   if (typeof ret === 'object' && 'error' in ret) {
     return res.status(400).json(ret.error);
   }
@@ -143,7 +141,6 @@ app.delete('/remove/:problemId', async (req, res) => {
 /* Getting the problem that user is currently solving */
 app.get('/currentSolving', async (req, res) => {
   const { token } = req.cookies;
-  console.log(`token: ${token}`);
   if (token === '') {
     return res.status(401).json('Login first!');
   }
