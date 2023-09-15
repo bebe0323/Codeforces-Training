@@ -15,7 +15,7 @@ export default function LoginPage() {
   async function handleLogin(e) {
     e.preventDefault();
     setLoading(true);
-    const response = await fetch('http://localhost:4000/login', {
+    const response = await fetch('/api/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },

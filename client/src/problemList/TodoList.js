@@ -12,7 +12,7 @@ export default function TodoList() {
     // using async function here to avoid use async TodoList()
     async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:4000/problems/${'todo'}`, {
+        const response = await fetch(`/api/problems/${'todo'}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -34,7 +34,7 @@ export default function TodoList() {
   }, []);
 
   async function handleStart(problemId) {
-    const response = await fetch(`http://localhost:4000/problemUpdate`, {
+    const response = await fetch(`/api/problemUpdate`, {
       method: 'PUT',
       body: JSON.stringify({
         problemId: problemId,
@@ -54,7 +54,7 @@ export default function TodoList() {
   }
   
   async function handleRemove(problemId) {
-    const response = await fetch(`http://localhost:4000/remove/${problemId}`, {
+    const response = await fetch(`/api/remove/${problemId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
