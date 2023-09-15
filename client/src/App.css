@@ -44,6 +44,10 @@ form.login, form.register {
   width: 100%;
 }
 
+.buton-logging {
+  cursor: not-allowed;
+}
+
 table{
   border-collapse: collapse;
   margin: 30;
@@ -100,7 +104,6 @@ a.cfLink {
 .solving-page {
   text-align: center;
 }
-
 
 .problem-link {
   display: inline-block;

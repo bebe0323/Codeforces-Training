@@ -197,3 +197,6 @@ app.listen(PORT, async () => {
     console.log(e);
   }
 });
+
+// delay for checking loading
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));

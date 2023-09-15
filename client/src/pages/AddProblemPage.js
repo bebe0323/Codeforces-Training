@@ -53,12 +53,10 @@ export default function AddProblemPage() {
   }
 
   function handleMouseEnter() {
-    console.log('mouse entered');
     setIsHovered(true);
   };
 
   function handleMouseLeave() {
-    console.log('mouse left');
     setIsHovered(false);
   };
 
