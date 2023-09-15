@@ -10,6 +10,8 @@ export default function AddProblemPage() {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [copyMessage, setCopyMessage] = useState('Copy');
+  const [loading, setLoading] = useState(false);
+  const [buttonMessage, setButtonMessage] = useState('Add');
 
   useEffect(() => {
     // Function to handle clicks outside the button
@@ -31,12 +33,16 @@ export default function AddProblemPage() {
 
   async function handleProblemAdd(e) {
     e.preventDefault();
+    setLoading(true);
+    setButtonMessage('Adding');
     const response = await fetch('http://localhost:4000/problemAdd', {
       method: 'POST',
       body: JSON.stringify({ link }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
+    setLoading(false);
+    setButtonMessage('Add');
     if (response.status === 200) {
       alert('successfully added');
       setLink('');
@@ -78,8 +84,8 @@ export default function AddProblemPage() {
             }}
           />
         </FloatingLabel>
-        <Button onClick={handleProblemAdd} className="add-button" variant="warning">
-          Add
+        <Button disabled={loading} onClick={handleProblemAdd} className="add-button" variant="warning">
+          {buttonMessage}
         </Button>
       </form>
       <div className="example-link-area">
