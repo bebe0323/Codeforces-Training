@@ -10,20 +10,24 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
   const {setUserInfo} = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+
   async function handleLogin(e) {
     e.preventDefault();
-    const response = await fetch('https://cp-training-backend.onrender.com/login', {
+    setLoading(true);
+    const response = await fetch('/api/login', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
+    setLoading(false);
     if (response.status === 200) {
       response.json()
         .then(data => {
           setUserInfo(data);
           setRedirect(true);
-          alert('login successful');
+          // alert('login successful');
         })
     } else {
       response.json()
@@ -35,7 +39,6 @@ export default function LoginPage() {
   }
   return (
     <>
-      <h1>Login</h1>
       <form className="login">
         <FloatingLabel
           controlId="floatingInput"
@@ -66,7 +69,12 @@ export default function LoginPage() {
             }}
           />
         </FloatingLabel>
-        <Button className="authSubmitButton" onClick={handleLogin} variant="secondary">Login</Button>
+        {loading === true && (
+          <Button disabled={loading} className="authSubmitButton" onClick={handleLogin} variant="secondary">Logging in</Button>
+        )}
+        {loading === false && (
+          <Button disabled={loading} className="authSubmitButton" onClick={handleLogin} variant="secondary">Log in</Button>
+        )}
       </form>
     </>
   )

@@ -8,16 +8,20 @@ export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   async function handleRegister(e) {
     e.preventDefault();
-    const response = await fetch('https://cp-training-backend.onrender.com/register', {
+    setLoading(true);
+    const response = await fetch('/api/register', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' }
     });
+    setLoading(false);
     if (response.status === 200) {
       setRedirect(true);
-      alert('successful registration');
+      // alert('successful registration');
     } else {
       response.json()
         .then(data => alert(data))
@@ -26,9 +30,9 @@ export default function RegisterPage() {
   if (redirect === true) {
     return <Navigate to={'/login'} />
   }
+
   return(
     <>
-      <h1>Register</h1>
       <form className="login">
         <FloatingLabel
           controlId="floatingInput"
@@ -59,7 +63,12 @@ export default function RegisterPage() {
             }}
           />
         </FloatingLabel>
-        <Button className="authSubmitButton" onClick={handleRegister} variant="secondary">Register</Button>
+        {loading === true && (
+          <Button disabled={loading} className="authSubmitButton" onClick={handleRegister} variant="secondary">Registering</Button>
+        )}
+        {loading === false && (
+          <Button className="authSubmitButton" onClick={handleRegister} variant="secondary">Register</Button>
+        )}
       </form>
     </>
   )

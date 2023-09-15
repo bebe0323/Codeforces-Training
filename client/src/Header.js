@@ -7,7 +7,7 @@ export default function Header() {
   const {userInfo, setUserInfo} = useContext(UserContext);
 
   useEffect(() => {
-    fetch('https://cp-training-backend.onrender.com/profile', {
+    fetch('/api/profile', {
       method: 'GET',
       credentials: 'include',
     })
@@ -20,7 +20,7 @@ export default function Header() {
   }, []);
 
   function logout() {
-    fetch('https://cp-training-backend.onrender.com/logout', {
+    fetch('/api/logout', {
       method: 'POST',
       credentials: 'include'
     })

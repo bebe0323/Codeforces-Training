@@ -31,7 +31,7 @@ export default function SolvedList() {
     // using async function here to avoid use async TodoList()
     async function fetchSolved() {
       try {
-        const response = await fetch(`https://cp-training-backend.onrender.com/problems/${'solved'}`, {
+        const response = await fetch(`/api/problems/${'solved'}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -53,7 +53,7 @@ export default function SolvedList() {
   }, []);
 
   async function handleRemove(problemId) {
-    const response = await fetch(`https://cp-training-backend.onrender.com/remove/${problemId}`, {
+    const response = await fetch(`/api/remove/${problemId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

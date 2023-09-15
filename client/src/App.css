@@ -1,10 +1,10 @@
-*{
+* {
   box-sizing: border-box;
 }
-body{
+body {
   color: #222;
 }
-img{
+img {
   max-width: 100%;
 }
 
@@ -14,34 +14,38 @@ main {
   margin: 0 auto;
 }
 
-header{
+header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 50px;
   align-items: center;
 }
 
-header a{
+header a {
   text-decoration: none;
   color: inherit;
 }
-header a.logo{
+header a.logo {
   font-weight: bold;
   font-size: 1.5rem;
 }
 
-header nav{
+header nav {
   display: flex;
   gap: 15px;
 }
 
-form.login, form.register{
+form.login, form.register {
   max-width: 400px;
   margin: 0 auto;
 }
 
-.authSubmitButton{
+.authSubmitButton {
   width: 100%;
+}
+
+.buton-logging {
+  cursor: not-allowed;
 }
 
 table{
@@ -61,7 +65,6 @@ thead tr {
   color: #ffffff;
   text-align: left;
 }
-
 
 th, td{
   padding: 12px 15px;
@@ -102,7 +105,6 @@ a.cfLink {
   text-align: center;
 }
 
-
 .problem-link {
   display: inline-block;
   padding: 10px 20px;
@@ -115,7 +117,6 @@ a.cfLink {
 }
 
 .problem-link:hover {
-  /* background-color: #2980b9; */
   background-color: #89ABE3;
 }
 
@@ -145,4 +146,64 @@ a.cfLink {
 
 textarea:focus {
   outline: none;
+}
+
+form.problem-add {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.add-button {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.example-link-area {
+  display: flex;
+  font-size: .875rem;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  color:rgba(88, 80, 226);
+}
+
+.info-example-link {
+  color: black;
+  margin-bottom: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: inline-block;
+  position: relative; /* Make the container a positioning context */
+}
+
+.example-link {
+  margin-left: 6px;
+  margin-bottom: 0px;
+  margin-right: 4px;
+  color:rgba(88, 80, 226);
+  text-decoration: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.copy-hovered {
+  display: inline-block;
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 5px;
+  position: relative;
+  font-size: .875rem;
+  margin: 0;
+}
+
+.clicked-button {
+  border: 2px solid #007bff;
+  margin-right: 5px;
 }
