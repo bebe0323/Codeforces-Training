@@ -17,7 +17,7 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setButtonMessage('Logging in');
-    const response = await fetch('https://cp-training-backend.onrender.com/login', {
+    const response = await fetch(`${backendURL}/login`, {
       method: 'POST',
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },
