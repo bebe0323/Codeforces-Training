@@ -12,7 +12,7 @@ export default function TodoList() {
     // using async function here to avoid use async TodoList()
     async function fetchData() {
       try {
-        const response = await fetch(`https://cp-training-backend.onrender.com/problems/${'todo'}`, {
+        const response = await fetch(`${backendURL}/problems/${'todo'}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -34,7 +34,7 @@ export default function TodoList() {
   }, [refresh]);
 
   async function handleStart(problemId) {
-    const response = await fetch(`https://cp-training-backend.onrender.com/problemUpdate`, {
+    const response = await fetch(`${backendURL}/problemUpdate`, {
       method: 'PUT',
       body: JSON.stringify({
         problemId: problemId,
@@ -54,7 +54,7 @@ export default function TodoList() {
   }
   
   async function handleRemove(problemId) {
-    const response = await fetch(`https://cp-training-backend.onrender.com/remove/${problemId}`, {
+    const response = await fetch(`${backendURL}/remove/${problemId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

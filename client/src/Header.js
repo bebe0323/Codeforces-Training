@@ -1,13 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useContext } from "react";
 import { UserContext } from "./UserContext";
+import { backendURL } from "./App.js";
 
 export default function Header() {
   const navigate = useNavigate();
   const {userInfo, setUserInfo} = useContext(UserContext);
 
   useEffect(() => {
-    fetch('https://cp-training-backend.onrender.com/profile', {
+    fetch(`${backendURL}/profile`, {
       method: 'GET',
       credentials: 'include',
     })
@@ -20,7 +21,7 @@ export default function Header() {
   }, []);
 
   function logout() {
-    fetch('https://cp-training-backend.onrender.com/logout', {
+    fetch(`${backendURL}/logout`, {
       method: 'POST',
       credentials: 'include'
     })
