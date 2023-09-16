@@ -6,7 +6,8 @@ import Button from 'react-bootstrap/Button';
 export default function TodoList() {
   const navigate = useNavigate();
   const [problemList, setProblemList] = useState(null);
-  const [redirect, setRedirect] = useState(false);
+  // const [redirect, setRedirect] = useState(false);
+  const [removed, setRemoved] = useState(0);
 
   useEffect(() => {
     // using async function here to avoid use async TodoList()
@@ -31,7 +32,7 @@ export default function TodoList() {
       }
     }
     fetchData();
-  }, []);
+  }, [removed]);
 
   async function handleStart(problemId) {
     const response = await fetch(`https://cp-training-backend.onrender.com/problemUpdate`, {
@@ -46,7 +47,7 @@ export default function TodoList() {
       credentials: 'include',
     });
     if (response.status === 200) {
-      setRedirect(true);
+      navigate("/solving");
     } else {
       response.json()
         .then(data => alert(data))
@@ -60,17 +61,17 @@ export default function TodoList() {
       credentials: 'include',
     });
     if (response.status === 200) {
-      navigate('/todoList');
-      window.location.reload();
+      // navigate("/todoList");
+      setRemoved(1 - removed);
     } else {
       response.json()
         .then(error => console.log(error))
     }
   }
 
-  if (redirect) {
-    return <Navigate to={'/solving'} />
-  }
+  // if (redirect) {
+  //   return <Navigate to={'/solving'} />
+  // }
   
   return (
     <div>
