@@ -30,7 +30,6 @@ export default function LoginPage() {
         .then(data => {
           setUserInfo(data);
           setRedirect(true);
-          // alert('login successful');
         })
     } else {
       response.json()
