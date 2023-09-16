@@ -1,5 +1,6 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import { useEffect, useContext } from "react";
 
 import Layout from './Layout.js';
 import IndexPage from './pages/IndexPage.js';
@@ -25,6 +26,10 @@ function App() {
           <Route path='/skippedList' element={<SkippedList />} />
           <Route path='/solvedList' element={<SolvedList />} />
           <Route path='/solving' element={<Solving />} />
+          <Route
+            path="*"
+            element={<Navigate to="/" replace={true} />}
+          />
         </Route>
       </Routes>
     </UserContextProvider>
