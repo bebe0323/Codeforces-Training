@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import { timeToString } from "../pages/Solving.js";
-import { useNavigate } from "react-router-dom";
-
 
 export function findDate(finishedDate) {
   finishedDate = new Date(finishedDate);
@@ -25,8 +23,9 @@ export function findSolvedDuration(startedDate, finishedDate) {
 }
 
 export default function SolvedList() {
-  const navigate = useNavigate();
   const [problemList, setProblemList] = useState(null);
+  const [refresh, setRefresh] = useState(0);
+
   useEffect(() => {
     // using async function here to avoid use async TodoList()
     async function fetchSolved() {
@@ -50,7 +49,7 @@ export default function SolvedList() {
       }
     }
     fetchSolved();
-  }, []);
+  }, [refresh]);
 
   async function handleRemove(problemId) {
     const response = await fetch(`https://cp-training-backend.onrender.com/remove/${problemId}`, {
@@ -59,8 +58,7 @@ export default function SolvedList() {
       credentials: 'include',
     });
     if (response.status === 200) {
-      navigate('/solvedList');
-      window.location.reload();
+      setRefresh(1 - refresh);
     } else {
       response.json()
         .then(error => console.log(error))

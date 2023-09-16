@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import Button from 'react-bootstrap/Button';
 import { findDate } from "./SolvedList.js";
@@ -7,8 +6,8 @@ import { findSolvedDuration } from "./SolvedList.js";
 
 
 export default function SkippedList() {
-  const navigate = useNavigate();
   const [problemList, setProblemList] = useState(null);
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     // using async function here to avoid use async TodoList()
@@ -33,7 +32,7 @@ export default function SkippedList() {
       }
     }
     fetchSolved();
-  }, []);
+  }, [refresh]);
 
   async function handleRemove(problemId) {
     const response = await fetch(`https://cp-training-backend.onrender.com/remove/${problemId}`, {
@@ -42,8 +41,7 @@ export default function SkippedList() {
       credentials: 'include',
     });
     if (response.status === 200) {
-      navigate('/skippedList');
-      window.location.reload();
+      setRefresh(1 - refresh);
     } else {
       response.json()
         .then(error => console.log(error))

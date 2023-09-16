@@ -69,12 +69,6 @@ export default function RegisterPage() {
         <Button disabled={loading} className="authSubmitButton" onClick={handleRegister} variant="secondary">
           {buttonMessage}
         </Button>
-        {/* {loading === true && (
-          <Button disabled={loading} className="authSubmitButton" onClick={handleRegister} variant="secondary">Registering</Button>
-        )}
-        {loading === false && (
-          <Button className="authSubmitButton" onClick={handleRegister} variant="secondary">Register</Button>
-        )} */}
       </form>
     </>
   )

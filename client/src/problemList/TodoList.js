@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { findDate } from "./SolvedList.js";
 import Button from 'react-bootstrap/Button';
 
 export default function TodoList() {
   const navigate = useNavigate();
   const [problemList, setProblemList] = useState(null);
-  // const [redirect, setRedirect] = useState(false);
-  const [removed, setRemoved] = useState(0);
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     // using async function here to avoid use async TodoList()
@@ -32,7 +31,7 @@ export default function TodoList() {
       }
     }
     fetchData();
-  }, [removed]);
+  }, [refresh]);
 
   async function handleStart(problemId) {
     const response = await fetch(`https://cp-training-backend.onrender.com/problemUpdate`, {
@@ -61,17 +60,12 @@ export default function TodoList() {
       credentials: 'include',
     });
     if (response.status === 200) {
-      // navigate("/todoList");
-      setRemoved(1 - removed);
+      setRefresh(1 - refresh);
     } else {
       response.json()
         .then(error => console.log(error))
     }
   }
-
-  // if (redirect) {
-  //   return <Navigate to={'/solving'} />
-  // }
   
   return (
     <div>

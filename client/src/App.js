@@ -1,6 +1,5 @@
 import './App.css';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { useEffect, useContext } from "react";
 
 import Layout from './Layout.js';
 import IndexPage from './pages/IndexPage.js';
