@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { backendURL } from "../App.js";
 
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { FaCopy } from "react-icons/fa6";
 
 export default function AddProblemPage() {

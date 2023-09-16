@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import { timeToString } from "../pages/Solving.js";
+import { backendURL } from "../App.js";
 
 export function findDate(finishedDate) {
   finishedDate = new Date(finishedDate);
