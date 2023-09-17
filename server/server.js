@@ -74,7 +74,9 @@ app.post('/logout', (req, res) => {
 
 app.post('/problem/add', async (req, res) => {
   const { token } = req.cookies;
-  if (token === '') {
+  console.log(`problem add token: `);
+  console.log(token);
+  if (token === '' || token === undefined || token === null) {
     return res.status(401).json('Login first!');
   }
   const { link } = req.body;
