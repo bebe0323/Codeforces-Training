@@ -13,7 +13,7 @@ export default function SkippedList() {
     // using async function here to avoid use async TodoList()
     async function fetchSolved() {
       try {
-        const response = await fetch(`${backendURL}/problems/${'skipped'}`, {
+        const response = await fetch(`${backendURL}/list/${'skipped'}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -35,7 +35,7 @@ export default function SkippedList() {
   }, [refresh]);
 
   async function handleRemove(problemId) {
-    const response = await fetch(`${backendURL}/remove/${problemId}`, {
+    const response = await fetch(`${backendURL}/problem/remove/${problemId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

@@ -31,7 +31,7 @@ export default function Solving() {
     // use effect is called after paging is reloaded
     async function fetchData() {
       try {
-        const response = await fetch(`${backendURL}/currentSolving`, {
+        const response = await fetch(`${backendURL}/problem/solving`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -73,7 +73,7 @@ export default function Solving() {
 
   async function handleButton(status) {
     // POST/PUT body
-    const response = await fetch(`${backendURL}/problemUpdate`, {
+    const response = await fetch(`${backendURL}/problem/update`, {
       method: 'PUT',
       body: JSON.stringify({
         problemId: problem.problemId,
@@ -93,10 +93,10 @@ export default function Solving() {
   }
 
   if(redirect === 'solved') {
-    return <Navigate to={`/solvedList`} />;
+    return <Navigate to={`/list/solved`} />;
   }
   if (redirect === 'skipped') {
-    return <Navigate to={'/skippedList'} />
+    return <Navigate to={'/list/skipped'} />
   }
   if (redirect === 'login') {
     return <Navigate to={'/login'} />
