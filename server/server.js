@@ -54,6 +54,9 @@ app.post('/login', async (req, res) => {
 
 app.get('/profile', async (req, res) => {
   const { token } = req.cookies;
+  if (token === '' || token === undefined) {
+    return res.status(401).json('Login first!');
+  }
   jwt.verify(token, secretKey, {}, (err, info) => {
     if (err) {
       return res.status(400).json(err);
@@ -76,7 +79,7 @@ app.post('/problem/add', async (req, res) => {
   const { token } = req.cookies;
   console.log(`problem add token: `);
   console.log(token);
-  if (token === '' || token === undefined || token === null) {
+  if (token === '' || token === undefined) {
     return res.status(401).json('Login first!');
   }
   const { link } = req.body;
@@ -98,7 +101,7 @@ app.post('/problem/add', async (req, res) => {
 
 app.get('/list/:status', async (req, res) => {
   const { token } = req.cookies;
-  if (token === '') {
+  if (token === '' || token === undefined) {
     return res.status(401).json('Login first!');
   }
   const status = req.params.status;
@@ -120,7 +123,7 @@ app.get('/list/:status', async (req, res) => {
 
 app.delete('/problem/remove/:problemId', async (req, res) => {
   const { token } = req.cookies;
-  if (token === '') {
+  if (token === '' || token === undefined) {
     return res.status(401).json('Login first!');
   }
   const problemId = req.params.problemId;
@@ -143,7 +146,7 @@ app.delete('/problem/remove/:problemId', async (req, res) => {
 /* Getting the problem that user is currently solving */
 app.get('/problem/solving', async (req, res) => {
   const { token } = req.cookies;
-  if (token === '') {
+  if (token === '' || token === undefined) {
     return res.status(401).json('Login first!');
   }
   // verifying token
@@ -165,7 +168,7 @@ app.get('/problem/solving', async (req, res) => {
 /* Problem solved */
 app.put('/problem/update', async(req, res) => {
   const { token } = req.cookies;
-  if (token === '') {
+  if (token === '' || token === undefined) {
     return res.status(401).json('Login first!');
   }
   const {
