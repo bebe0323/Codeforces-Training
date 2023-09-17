@@ -72,7 +72,7 @@ app.post('/logout', (req, res) => {
   res.status(200).json('ok');
 })
 
-app.post('/problemAdd', async (req, res) => {
+app.post('/problem/add', async (req, res) => {
   const { token } = req.cookies;
   if (token === '') {
     return res.status(401).json('Login first!');
@@ -94,7 +94,7 @@ app.post('/problemAdd', async (req, res) => {
   return res.status(200).json('success');
 });
 
-app.get('/problems/:status', async (req, res) => {
+app.get('/list/:status', async (req, res) => {
   const { token } = req.cookies;
   if (token === '') {
     return res.status(401).json('Login first!');
@@ -116,7 +116,7 @@ app.get('/problems/:status', async (req, res) => {
   return res.status(200).json(todoList);
 });
 
-app.delete('/remove/:problemId', async (req, res) => {
+app.delete('/problem/remove/:problemId', async (req, res) => {
   const { token } = req.cookies;
   if (token === '') {
     return res.status(401).json('Login first!');
@@ -139,7 +139,7 @@ app.delete('/remove/:problemId', async (req, res) => {
 });
 
 /* Getting the problem that user is currently solving */
-app.get('/currentSolving', async (req, res) => {
+app.get('/problem/solving', async (req, res) => {
   const { token } = req.cookies;
   if (token === '') {
     return res.status(401).json('Login first!');
@@ -161,7 +161,7 @@ app.get('/currentSolving', async (req, res) => {
 });
 
 /* Problem solved */
-app.put('/problemUpdate', async(req, res) => {
+app.put('/problem/update', async(req, res) => {
   const { token } = req.cookies;
   if (token === '') {
     return res.status(401).json('Login first!');
