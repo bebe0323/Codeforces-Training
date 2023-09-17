@@ -36,7 +36,7 @@ export default function AddProblemPage() {
     e.preventDefault();
     setLoading(true);
     setButtonMessage('Adding');
-    const response = await fetch(`${backendURL}/problemAdd`, {
+    const response = await fetch(`${backendURL}/problem/add`, {
       method: 'POST',
       body: JSON.stringify({ link }),
       headers: { 'Content-Type': 'application/json' },

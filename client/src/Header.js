@@ -34,11 +34,11 @@ export default function Header() {
       <nav>
         {userInfo && (
           <>
-            <Link to="/solving">Solving</Link>
-            <Link to="/addProblem">Add problem</Link>
-            <Link to="/todoList">Todo</Link>
-            <Link to="/skippedList">Skipped</Link>
-            <Link to="/solvedList">Solved</Link>
+            <Link to="/problem/solving">Solving</Link>
+            <Link to="/problem/add">Add problem</Link>
+            <Link to="/list/todo">Todo</Link>
+            <Link to="/list/skipped">Skipped</Link>
+            <Link to="/list/solved">Solved</Link>
             <a onClick={logout}>Logout</a>
           </>
         )}

@@ -22,11 +22,11 @@ function App() {
           <Route index element = {<IndexPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
-          <Route path='/addProblem' element={<AddProblemPage />} />
-          <Route path='/todoList' element={<TodoList />} />
-          <Route path='/skippedList' element={<SkippedList />} />
-          <Route path='/solvedList' element={<SolvedList />} />
-          <Route path='/solving' element={<Solving />} />
+          <Route path='/problem/add' element={<AddProblemPage />} />
+          <Route path='/list/todo' element={<TodoList />} />
+          <Route path='/list/skipped' element={<SkippedList />} />
+          <Route path='/list/solved' element={<SolvedList />} />
+          <Route path='/problem/solving' element={<Solving />} />
           <Route
             path="*"
             element={<Navigate to="/" replace={true} />}
