@@ -77,8 +77,6 @@ app.post('/logout', (req, res) => {
 
 app.post('/problem/add', async (req, res) => {
   const { token } = req.cookies;
-  console.log(`problem add token: `);
-  console.log(token);
   if (token === '' || token === undefined) {
     return res.status(401).json('Login first!');
   }
@@ -114,12 +112,39 @@ app.get('/list/:status', async (req, res) => {
     // return res.status(200).json(info);
     username = info.username;
   });
-  const todoList = await getProblemsList(username, status);
+  const ret = await getProblemsList(username, status, 0, 3500);
   if (typeof ret === 'object' && 'error' in ret) {
-    return res.status(400).json(todoList.error);
+    return res.status(400).json(ret.error);
   }
-  return res.status(200).json(todoList);
+  return res.status(200).json(ret);
 });
+
+app.get('/list/:status/:lower/:upper', async (req, res) => {
+  const { token } = req.cookies;
+  const status = req.params.status;
+  const lower = req.params.lower;
+  const upper = req.params.upper;
+  // checking token
+  if (token === '' || token === undefined) {
+    return res.status(401).json('Login first!');
+  }
+  // verifying token
+  let username = '';
+  jwt.verify(token, secretKey, {}, (err, info) => {
+    if (err) {
+      return res.status(400).json(err);
+    }
+    // return res.status(200).json(info);
+    username = info.username;
+  });
+  if (lower === '') lower = 0;
+  if (upper === '') upper = 3500;
+  const ret = await getProblemsList(username, status, lower, upper);
+  if (typeof ret === 'object' && 'error' in ret) {
+    return res.status(400).json(ret.error);
+  }
+  return res.status(200).json(ret);
+})
 
 app.delete('/problem/remove/:problemId', async (req, res) => {
   const { token } = req.cookies;

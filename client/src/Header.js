@@ -3,6 +3,9 @@ import { useEffect, useContext } from "react";
 import { UserContext } from "./UserContext";
 import { backendURL } from "./App.js";
 
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
+
 export default function Header() {
   const navigate = useNavigate();
   const {userInfo, setUserInfo} = useContext(UserContext);
@@ -36,10 +39,19 @@ export default function Header() {
           <>
             <Link to="/problem/solving">Solving</Link>
             <Link to="/problem/add">Add problem</Link>
-            <Link to="/list/todo">Todo</Link>
-            <Link to="/list/skipped">Skipped</Link>
-            <Link to="/list/solved">Solved</Link>
+            <NavDropdown
+              id="nav-dropdown-dark-example"
+              title="Problem Lists"
+              menuVariant="dark"
+              size="sm"
+            >
+              <NavDropdown.Item href="/#/list/todo">Todo</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/#/list/solved">Solved</NavDropdown.Item>
+              <NavDropdown.Item size="small" href="/#/list/skipped">Skipped</NavDropdown.Item>
+            </NavDropdown>
             <a onClick={logout}>Logout</a>
+            
           </>
         )}
         {!userInfo && (
