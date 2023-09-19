@@ -47,20 +47,19 @@ export default function SolvedList() {
   const [upper, setUpper] = useState('');
 
   let data = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu'],
-    // labels: [],
+    // labels: ['Mon', 'Tue', 'Wed', 'Thu'],
+    labels: [],
     datasets: [
       {
         labels: 'Solved duration',
-        data: [3, 6, 9, 8],
-        // data: [],
+        // data: [3, 6, 9, 8],
+        data: [],
         backgroundColor: 'aqua',
         borderColor: 'black',
         pointBorderColor: 'aqua'
       }
     ]
   };
-
   let options = {
     plugins: {
       legend: true
@@ -74,7 +73,6 @@ export default function SolvedList() {
   }
 
   useEffect(() => {
-    console.log('updating chart');
     // problem ids
     data.labels = [];
     // solved durations
@@ -84,17 +82,11 @@ export default function SolvedList() {
       const differenceMs = (new Date(problem.finishedDate) - new Date(problem.startedDate));
       const differenceMinute = Math.floor(differenceMs / (1000 * 60));
       ymax = Math.max(differenceMinute, ymax);
-      data.labels.push(problem.problemId);
-      if (differenceMinute === 0) {
-        data.datasets[0].data.push(4);
-      } else {
-        data.datasets[0].data.push(differenceMinute);
-      }
-      console.log(differenceMinute);
+      // pushing at the start of the array
+      data.labels.unshift(problem.problemId);
+      data.datasets[0].data.unshift(differenceMinute);
     }
     options.scales.y.max = ymax + 10;
-    console.log(data);
-    console.log(options);
   }, [problemList]);
 
   useEffect(() => {
