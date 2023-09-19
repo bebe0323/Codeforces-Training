@@ -68,8 +68,8 @@ export default function SolvedList() {
     }
   }
 
-  async function handleSubmit() {
-    
+  async function handleSubmit(e) {
+    e.preventDefault();
     const response = await fetch(`${backendURL}/list/${'solved'}/${lower}/${upper}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
