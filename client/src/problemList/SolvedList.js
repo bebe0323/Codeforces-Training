@@ -2,6 +2,23 @@ import { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import { timeToString } from "../pages/Solving.js";
 import { backendURL } from "../App.js";
+import { FilterBox } from "./FilterBox.js";
+
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJs,
+  LineElement,
+  CategoryScale, // x axis
+  LinearScale, // y axis
+  PointElement
+} from 'chart.js';
+
+ChartJs.register(
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
+);
 
 export function findDate(finishedDate) {
   finishedDate = new Date(finishedDate);
@@ -24,10 +41,61 @@ export function findSolvedDuration(startedDate, finishedDate) {
 }
 
 export default function SolvedList() {
-  const [problemList, setProblemList] = useState(null);
+  const [problemList, setProblemList] = useState([]);
   const [refresh, setRefresh] = useState(0);
   const [lower, setLower] = useState('');
   const [upper, setUpper] = useState('');
+
+  let data = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu'],
+    // labels: [],
+    datasets: [
+      {
+        labels: 'Solved duration',
+        data: [3, 6, 9, 8],
+        // data: [],
+        backgroundColor: 'aqua',
+        borderColor: 'black',
+        pointBorderColor: 'aqua'
+      }
+    ]
+  };
+
+  let options = {
+    plugins: {
+      legend: true
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 20
+      }
+    }
+  }
+
+  useEffect(() => {
+    console.log('updating chart');
+    // problem ids
+    data.labels = [];
+    // solved durations
+    data.datasets[0].data = [];
+    let ymax = 0;
+    for (const problem of problemList) {
+      const differenceMs = (new Date(problem.finishedDate) - new Date(problem.startedDate));
+      const differenceMinute = Math.floor(differenceMs / (1000 * 60));
+      ymax = Math.max(differenceMinute, ymax);
+      data.labels.push(problem.problemId);
+      if (differenceMinute === 0) {
+        data.datasets[0].data.push(4);
+      } else {
+        data.datasets[0].data.push(differenceMinute);
+      }
+      console.log(differenceMinute);
+    }
+    options.scales.y.max = ymax + 10;
+    console.log(data);
+    console.log(options);
+  }, [problemList]);
 
   useEffect(() => {
     // using async function here to avoid use async TodoList()
@@ -86,11 +154,12 @@ export default function SolvedList() {
 
   function handleLower(e) { setLower(e.target.value); }
   function handleUpper(e) { setUpper(e.target.value); }
-  
+
   return (
     <div>
       <h1>Solved List</h1>
-      {problemList !== null ? (
+      
+      <div>
         <div className="solved-page">
           <table className="solved-table">
             <thead>
@@ -122,26 +191,18 @@ export default function SolvedList() {
               ))}
             </tbody>
           </table>
-          <form className="filter-box" onSubmit={handleSubmit}>
-            <p className="filter-text">→ Filter Problems</p>
-            <div className="filter-input">
-              <p className="difficulty-text">Difficulty:</p>
-              <input value={lower} onChange={handleLower} className="difficulty-input" required/>
-              -
-              <input value={upper} onChange={handleUpper} className="difficulty-input" required/>
-            </div>
-            <div className="apply-button-div">
-              <button className="apply-button">
-                Apply
-              </button>
-            </div>
-          </form>
+          <FilterBox
+            handleSubmit={handleSubmit}
+            lower={lower}
+            upper={upper}
+            handleLower={handleLower}
+            handleUpper={handleUpper}
+          />
         </div>
-      ): (
-        <>
-          Loading
-        </>
-      )}
+        <div className="line-chart">
+          <Line redraw={true} data = {data} options={options} />
+        </div>
+      </div>
     </div>
   );
 }
