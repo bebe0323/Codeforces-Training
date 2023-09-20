@@ -13,7 +13,7 @@ import TodoList from './problemList/TodoList.js';
 import SolvedList from './problemList/SolvedList.js';
 import Solving from './pages/Solving.js';
 
-export const backendURL = "https://upset-pig-vest.cyclic.cloud";
+export const backendURL = "https://cautious-crow-fez.cyclic.cloud/";
 
 function App() {
   return (
