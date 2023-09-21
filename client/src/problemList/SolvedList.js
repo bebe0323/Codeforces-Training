@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
-import { timeToString } from "../pages/Solving.js";
 import { backendURL } from "../App.js";
 import { FilterBox } from "./FilterBox.js";
+import { findDate, findSolvedDuration, findDifMinute } from "./date.js";
 
 import { Line } from 'react-chartjs-2';
 import {
@@ -12,6 +12,7 @@ import {
   LinearScale, // y axis
   PointElement
 } from 'chart.js';
+import { useSearchParams } from "react-router-dom";
 
 ChartJs.register(
   LineElement,
@@ -20,47 +21,28 @@ ChartJs.register(
   PointElement
 );
 
-export function findDate(finishedDate) {
-  finishedDate = new Date(finishedDate);
-  // Extract year, month, and date
-  const year = finishedDate.getUTCFullYear();
-  const month = finishedDate.getUTCMonth() + 1;
-  const date = finishedDate.getUTCDate();
-  return (
-    `${year}/${month}/${date}`
-  );
-}
-
-export function findSolvedDuration(startedDate, finishedDate) {
-  startedDate = new Date(startedDate);
-  finishedDate = new Date(finishedDate);
-  const diff = finishedDate - startedDate;
-  return (
-    timeToString(diff)
-  );
-}
-
 export default function SolvedList() {
   const [problemList, setProblemList] = useState([]);
-  const [refresh, setRefresh] = useState(0);
+  const [refresh, setRefresh] = useState(false);
   const [lower, setLower] = useState('');
   const [upper, setUpper] = useState('');
-
-  let data = {
-    // labels: ['Mon', 'Tue', 'Wed', 'Thu'],
+  const [searchParams, setSearchParams] = useSearchParams({
+    lower: '',
+    upper: ''
+  });
+  const [data, setData] = useState({
     labels: [],
     datasets: [
       {
         labels: 'Solved duration',
-        // data: [3, 6, 9, 8],
         data: [],
         backgroundColor: 'aqua',
         borderColor: 'black',
         pointBorderColor: 'aqua'
       }
     ]
-  };
-  let options = {
+  });
+  const [options, setOptions] = useState({
     plugins: {
       legend: true
     },
@@ -70,30 +52,61 @@ export default function SolvedList() {
         max: 20
       }
     }
-  }
+  });
 
   useEffect(() => {
-    // problem ids
-    data.labels = [];
-    // solved durations
-    data.datasets[0].data = [];
+    let newData = {
+      labels: [],
+      datasets: [
+        {
+          labels: 'Solved duration',
+          data: [],
+          backgroundColor: 'aqua',
+          borderColor: 'black',
+          pointBorderColor: 'aqua'
+        }
+      ]
+    }
+    let newOptions = {
+      plugins: {
+        legend: true
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 20
+        }
+      }
+    }
     let ymax = 0;
     for (const problem of problemList) {
-      const differenceMs = (new Date(problem.finishedDate) - new Date(problem.startedDate));
-      const differenceMinute = Math.floor(differenceMs / (1000 * 60));
+      const differenceMinute = findDifMinute(problem.startedDate, problem.finishedDate);
       ymax = Math.max(differenceMinute, ymax);
       // pushing at the start of the array
-      data.labels.unshift(problem.problemId);
-      data.datasets[0].data.unshift(differenceMinute);
+      newData.labels.unshift(problem.problemId);
+      newData.datasets[0].data.unshift(differenceMinute);
     }
-    options.scales.y.max = ymax + 10;
+    newOptions.scales.y.max = ymax + 10;
+    setData(newData);
+    setOptions(newOptions);
   }, [problemList]);
 
   useEffect(() => {
     // using async function here to avoid use async TodoList()
     async function fetchSolved() {
       try {
-        const response = await fetch(`${backendURL}/list/${'solved'}`, {
+        const lower1 = searchParams.get("lower");
+        const upper1 = searchParams.get("upper");
+        // if lower and upper on params are numbers, setting lower and upper
+        if (!isNaN(parseInt(lower1)) && !isNaN(parseInt(upper1))) {
+          setLower(parseInt(lower1));
+          setUpper(parseInt(upper1));
+        }
+        let URL = `${backendURL}/list/${'solved'}/${lower1}/${upper1}`;
+        if (lower1 === '') {
+          URL = `${backendURL}/list/${'solved'}`;
+        }
+        const response = await fetch(URL, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
@@ -121,27 +134,23 @@ export default function SolvedList() {
       credentials: 'include',
     });
     if (response.status === 200) {
-      setRefresh(1 - refresh);
+      setRefresh(!refresh);
     } else {
       response.json()
         .then(error => console.log(error))
     }
   }
 
-  async function handleSubmit(e) {
+  async function handleFilter(e) {
     e.preventDefault();
-    const response = await fetch(`${backendURL}/list/${'solved'}/${lower}/${upper}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+    // updating search params
+    setSearchParams(prev => {
+      prev.set("lower", lower);
+      prev.set("upper", upper);
+      return prev;
     });
-    if (response.status === 200) {
-      response.json()
-        .then(data => setProblemList(data))
-    } else {
-      response.json()
-        .then(data => alert(data))
-    }
+    // updating list
+    setRefresh(!refresh);
   }
 
   function handleLower(e) { setLower(e.target.value); }
@@ -150,7 +159,6 @@ export default function SolvedList() {
   return (
     <div>
       <h1>Solved List</h1>
-      
       <div>
         <div className="solved-page">
           <table className="solved-table">
@@ -184,7 +192,7 @@ export default function SolvedList() {
             </tbody>
           </table>
           <FilterBox
-            handleSubmit={handleSubmit}
+            handleFilter={handleFilter}
             lower={lower}
             upper={upper}
             handleLower={handleLower}

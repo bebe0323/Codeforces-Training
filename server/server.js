@@ -109,7 +109,6 @@ app.get('/list/:status', async (req, res) => {
     if (err) {
       return res.status(400).json(err);
     }
-    // return res.status(200).json(info);
     username = info.username;
   });
   const ret = await getProblemsList(username, status, 0, 3500);
@@ -134,7 +133,6 @@ app.get('/list/:status/:lower/:upper', async (req, res) => {
     if (err) {
       return res.status(400).json(err);
     }
-    // return res.status(200).json(info);
     username = info.username;
   });
   if (lower === '') lower = 0;
@@ -158,7 +156,6 @@ app.delete('/problem/remove/:problemId', async (req, res) => {
     if (err) {
       return res.status(400).json(err);
     }
-    // return res.status(200).json(info);
     username = info.username;
   });
   const ret = await problemRemove(username, problemId);
@@ -180,7 +177,6 @@ app.get('/problem/solving', async (req, res) => {
     if (err) {
       return res.status(400).json(err);
     }
-    // return res.status(200).json(info);
     username = info.username;
   });
   const ret = await currentSolving(username);
@@ -229,7 +225,6 @@ app.get('/', (req, res) => {
   res.send('hello');
 })
 
-// const PORT = 4000;
 const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -246,17 +241,7 @@ connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
   }) 
-})
-
-// app.listen(PORT, async () => {
-//   try {
-//     await mongoose.connect(MONGO_URI);
-//     console.log('Connected to mongo.db');
-//     console.log(`Listening on port ${PORT}`);
-//   } catch(e) {
-//     console.log(e);
-//   }
-// });
+});
 
 // delay for checking loading
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
