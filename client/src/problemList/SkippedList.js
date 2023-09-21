@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 
-import Button from 'react-bootstrap/Button';
 import { backendURL } from "../App.js";
-import { findDate, findSolvedDuration } from "./date.js";
+import Table from "./Table.js";
 
 export default function SkippedList() {
-  const [problemList, setProblemList] = useState(null);
+  const [problemList, setProblemList] = useState([]);
   const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
@@ -32,60 +31,16 @@ export default function SkippedList() {
     }
     fetchSolved();
   }, [refresh]);
-
-  async function handleRemove(problemId) {
-    const response = await fetch(`${backendURL}/problem/remove/${problemId}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.status === 200) {
-      setRefresh(1 - refresh);
-    } else {
-      response.json()
-        .then(error => console.log(error))
-    }
-  }
   
   return (
     <div>
       <h1>Skipped List</h1>
-      {problemList !== null ? (
-        <table>
-          <thead>
-            <tr>
-              <th style={{width: '3.75em', }}>#</th>
-              <th style={{textAlign: 'center'}}>Name</th>
-              <th style={{width: '2.5em'}}>Difficulty</th>
-              <th>Date solved</th>
-              <th>Solved Duration</th>
-              <th>Note</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {problemList.map((item, index) => (
-              <tr key={index} className={index % 2 === 1 ? 'active-row': ''}>
-                <td><a target="_blank" rel="noreferrer noopener" className="cfLink" href={item.link}>{item.problemId}</a></td>
-                <td>{item.title}</td>
-                <td>{item.difficulty}</td>
-                <td>{findDate(item.finishedDate)}</td>
-                <td>{findSolvedDuration(item.startedDate, item.finishedDate)}</td>
-                <td>{item.note}</td>
-                <td>
-                  <Button onClick={() => handleRemove(item.problemId)} variant="danger">
-                    Remove
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ): (
-        <>
-          Loading
-        </>
-      )}
+      <Table
+        problemList={problemList}
+        isSkipped={true}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
     </div>
   );
 }
