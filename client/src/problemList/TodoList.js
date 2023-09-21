@@ -6,7 +6,7 @@ import Table from "./Table.js";
 export default function TodoList() {
   const navigate = useNavigate();
   const [problemList, setProblemList] = useState([]);
-  const [refresh, setRefresh] = useState(0);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     // using async function here to avoid use async TodoList()

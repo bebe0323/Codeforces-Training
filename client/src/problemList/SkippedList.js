@@ -5,7 +5,7 @@ import Table from "./Table.js";
 
 export default function SkippedList() {
   const [problemList, setProblemList] = useState([]);
-  const [refresh, setRefresh] = useState(0);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     // using async function here to avoid use async TodoList()
