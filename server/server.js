@@ -187,7 +187,7 @@ app.get('/problem/solving', async (req, res) => {
 });
 
 /* Problem solved */
-app.put('/problem/update', async(req, res) => {
+app.put('/problem/update', async (req, res) => {
   const { token } = req.cookies;
   if (token === '' || token === undefined) {
     return res.status(401).json('Login first!');

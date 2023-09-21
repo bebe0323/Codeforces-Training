@@ -2,26 +2,53 @@ import Button from 'react-bootstrap/Button';
 import { findDate, findSolvedDuration } from "./date.js";
 import { backendURL } from "../App.js";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Table({ problemList, isTodo = false, isSolved = false, isSkipped = false, handleStart, refresh, setRefresh }) {
-  const [loading, setLoading] = useState(false);
+export default function Table({ problemList, isTodo = false, isSolved = false, isSkipped = false, refresh, setRefresh }) {
+  const navigate = useNavigate();
+  const [loadingStart, setLoadingStart] = useState(false);
+  const [loadingRemove, setLoadingRemove] = useState(false);
   const [loadingId, setLoadingId] = useState('');
 
   async function handleRemove(problemId) {
     setLoadingId(problemId);
-    setLoading(true);
+    setLoadingRemove(true);
     const response = await fetch(`${backendURL}/problem/remove/${problemId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
     setLoadingId('');
-    setLoading(false);
+    setLoadingRemove(false);
     if (response.status === 200) {
       setRefresh(!refresh);
     } else {
       response.json()
         .then(error => console.log(error))
+    }
+  }
+
+  async function handleStart(problemId) {
+    setLoadingId(problemId);
+    setLoadingStart(true);
+    const response = await fetch(`${backendURL}/problem/update`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        problemId: problemId,
+        preStatus: 'todo',
+        status: 'solving',
+        note: ''
+      }),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    setLoadingId('');
+    setLoadingStart(false);
+    if (response.status === 200) {
+      navigate("/problem/solving");
+    } else {
+      response.json()
+        .then(data => alert(data))
     }
   }
 
@@ -54,11 +81,11 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
             <td>
               {
                 isTodo &&
-                <Button onClick={() => handleStart(item.problemId)} variant="warning">
+                <Button disabled={loadingStart && item.problemId === loadingId} onClick={() => handleStart(item.problemId)} variant="warning">
                   Start Solving
                 </Button>
               }{' '}
-              <Button disabled={loading && item.problemId === loadingId} onClick={() => handleRemove(item.problemId)} variant="danger">
+              <Button disabled={loadingRemove && item.problemId === loadingId} onClick={() => handleRemove(item.problemId)} variant="danger">
                 Remove
               </Button>
             </td>
@@ -66,5 +93,5 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
         ))}
       </tbody>
     </table>
-  )
+  );
 }
