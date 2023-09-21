@@ -10,6 +10,7 @@ export default function Solving() {
   const [time, setTime] = useState(0);
   const [redirect, setRedirect] = useState(false);
   const [note, setNote] = useState('');
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   useEffect(() => {
     // use effect is called after paging is reloaded
@@ -57,6 +58,7 @@ export default function Solving() {
 
   async function handleButton(status) {
     // POST/PUT body
+    setLoadingSubmit(true);
     const response = await fetch(`${backendURL}/problem/update`, {
       method: 'PUT',
       body: JSON.stringify({
@@ -68,6 +70,7 @@ export default function Solving() {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
+    setLoadingSubmit(false);
     if (response.status === 200) {
       setRedirect(status);
     } else {
@@ -105,10 +108,10 @@ export default function Solving() {
           </a>
         </h1>
         <h2 className="time">{timeToString(time)}</h2>
-        <Button className="skipped-button" variant="danger" onClick={() => handleButton('skipped')}>
+        <Button disabled={loadingSubmit} className="skipped-button" variant="danger" onClick={() => handleButton('skipped')}>
           Skipped
         </Button>{' '}
-        <Button className="solved-button" variant="success" onClick={() => handleButton('solved')}>
+        <Button disabled={loadingSubmit} className="solved-button" variant="success" onClick={() => handleButton('solved')}>
           Solved
         </Button>
         <br />
