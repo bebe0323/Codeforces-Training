@@ -1,16 +1,24 @@
-import { findDate, findSolvedDuration } from "./date.js";
 import Button from 'react-bootstrap/Button';
+import { findDate, findSolvedDuration } from "./date.js";
 import { backendURL } from "../App.js";
+import { useState } from "react";
 
 export default function Table({ problemList, isTodo = false, isSolved = false, isSkipped = false, handleStart, refresh, setRefresh }) {
+  const [loading, setLoading] = useState(false);
+  const [loadingId, setLoadingId] = useState('');
+
   async function handleRemove(problemId) {
+    setLoadingId(problemId);
+    setLoading(true);
     const response = await fetch(`${backendURL}/problem/remove/${problemId}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
+    setLoadingId('');
+    setLoading(false);
     if (response.status === 200) {
-      setRefresh(1 - refresh);
+      setRefresh(!refresh);
     } else {
       response.json()
         .then(error => console.log(error))
@@ -50,9 +58,9 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
                   Start Solving
                 </Button>
               }{' '}
-              <Button onClick={() => handleRemove(item.problemId)} variant="danger">
+              <Button disabled={loading && item.problemId === loadingId} onClick={() => handleRemove(item.problemId)} variant="danger">
                 Remove
-              </Button>{' '}
+              </Button>
             </td>
           </tr>
         ))}
