@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Button from 'react-bootstrap/Button';
 import { backendURL } from "../App.js";
+import { findDifMinute } from "./date.js";
 import { FilterBox } from "./FilterBox.js";
-import { findDate, findSolvedDuration, findDifMinute } from "./date.js";
+import Table from "./Table.js";
 
 import { Line } from 'react-chartjs-2';
 import {
@@ -127,20 +127,6 @@ export default function SolvedList() {
     fetchSolved();
   }, [refresh]);
 
-  async function handleRemove(problemId) {
-    const response = await fetch(`${backendURL}/problem/remove/${problemId}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    });
-    if (response.status === 200) {
-      setRefresh(!refresh);
-    } else {
-      response.json()
-        .then(error => console.log(error))
-    }
-  }
-
   async function handleFilter(e) {
     e.preventDefault();
     // updating search params
@@ -161,36 +147,12 @@ export default function SolvedList() {
       <h1>Solved List</h1>
       <div>
         <div className="solved-page">
-          <table className="solved-table">
-            <thead>
-              <tr>
-                <th style={{width: '3.75em', }}>#</th>
-                <th style={{textAlign: 'center'}}>Name</th>
-                <th style={{width: '2.5em'}}>Difficulty</th>
-                <th>Date solved</th>
-                <th>Solved Duration</th>
-                <th>Note</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {problemList.map((item, index) => (
-                <tr key={index} className={!index % 2 ? 'active-row': ''}>
-                  <td><a target="_blank" rel="noreferrer noopener" className="cfLink" href={item.link}>{item.problemId}</a></td>
-                  <td>{item.title}</td>
-                  <td>{item.difficulty}</td>
-                  <td>{findDate(item.finishedDate)}</td>
-                  <td>{findSolvedDuration(item.startedDate, item.finishedDate)}</td>
-                  <td>{item.note}</td>
-                  <td>
-                    <Button onClick={() => handleRemove(item.problemId)} variant="danger">
-                      Remove
-                    </Button>{' '}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Table
+            problemList={problemList}
+            isSolved={true}
+            refresh={refresh}
+            setRefresh={setRefresh}
+          />
           <FilterBox
             handleFilter={handleFilter}
             lower={lower}
