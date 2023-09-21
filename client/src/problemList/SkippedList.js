@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 
 import Button from 'react-bootstrap/Button';
-import { findDate } from "./SolvedList.js";
-import { findSolvedDuration } from "./SolvedList.js";
 import { backendURL } from "../App.js";
+import { findDate, findSolvedDuration } from "./date.js";
 
 export default function SkippedList() {
   const [problemList, setProblemList] = useState(null);
