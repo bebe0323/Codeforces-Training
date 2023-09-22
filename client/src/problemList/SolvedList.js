@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { backendURL } from "../App.js";
 import { findDifMinute } from "./date.js";
 import { FilterBox } from "./FilterBox.js";
 import Table from "./Table.js";
+import RingLoader from "react-spinners/RingLoader.js";
 
 import { Line } from 'react-chartjs-2';
 import {
@@ -27,44 +29,27 @@ export default function SolvedList() {
   const [show, setShow] = useState(false); 
   const [lower, setLower] = useState('');
   const [upper, setUpper] = useState('');
+  const [redirect, setRedirect] = useState('');
   const [searchParams, setSearchParams] = useSearchParams({
     lower: '',
     upper: ''
   });
-  const [data, setData] = useState({
-    labels: [],
-    datasets: [
-      {
-        labels: 'Solved duration',
-        data: [],
-        backgroundColor: 'aqua',
-        borderColor: 'black',
-        pointBorderColor: 'aqua'
-      }
-    ]
-  });
-  const [options, setOptions] = useState({
-    plugins: {
-      legend: true
-    },
-    scales: {
-      y: {
-        min: 0,
-        max: 20
-      }
-    }
-  });
+  const [data, setData] = useState({});
+  const [options, setOptions] = useState({});
+  const [firstFetch, setFirstFetch] = useState(true);
 
   useEffect(() => {
-    let newData = {
+    const newData = {
       labels: [],
       datasets: [
         {
           labels: 'Solved duration',
           data: [],
-          backgroundColor: 'aqua',
-          borderColor: 'black',
-          pointBorderColor: 'aqua'
+          backgroundColor: '#3B5998',
+          borderColor: '#3B5998',
+          pointBorderColor: '#3B5998',
+          pointRadius: 4,
+          pointHoverRadius: 6
         }
       ]
     }
@@ -77,7 +62,7 @@ export default function SolvedList() {
           min: 0,
           max: 20
         }
-      }
+      },
     }
     let ymax = 0;
     for (const problem of problemList) {
@@ -117,10 +102,14 @@ export default function SolvedList() {
             .then(data => {
               setProblemList(data);
             })
+        } else if (response.status === 401) {
+          alert('Login first');
+          setRedirect('login');
         } else {
           response.json()
             .then(data => alert(data))
         }
+        setFirstFetch(false);
       } catch (error) {
         console.error('Error fetching data: ', error);
       }
@@ -151,43 +140,52 @@ export default function SolvedList() {
     if (show) setShow(!show);
   }
 
+  if (redirect === 'login') {
+    return <Navigate to={'/login'} />
+  }
+  if (firstFetch) {
+    return (
+      <div className="loading">
+        <RingLoader color="#36d7b7" size={120}/>
+      </div>
+    )
+  }
   return (
     <div>
       <h1>Solved List</h1>
-      <div>
-        <div className="solved-page">
-          {!show && 
-            <Table
-              problemList={problemList}
-              isSolved={true}
-              refresh={refresh}
-              setRefresh={setRefresh}
-            />
-          }
-          {show &&
-            <div className="line-chart">
-              <Line redraw={true} data = {data} options={options} />
-            </div>
-          }
-          <div className="solved-sidebar">
-            <div className="sidebar-2-buttons">
-              <button disabled={!show} onClick={handleList} className="apply-button">
-                List
-              </button>{" "}
-              <button disabled={show} onClick={handleGraph} className="apply-button">
-                Graph
-              </button>
-            </div>
-            <FilterBox
-              handleFilter={handleFilter}
-              lower={lower}
-              upper={upper}
-              handleLower={handleLower}
-              handleUpper={handleUpper}
-            />
+      <div className="solved-page">
+        {!show && (
+          <Table
+            problemList={problemList}
+            isSolved={true}
+            refresh={refresh}
+            setRefresh={setRefresh}
+          />
+        )}
+        {show && (
+          <div className="line-chart">
+            <Line redraw={true} data = {data} options={options} />
           </div>
+        )}
+        <div className="solved-sidebar">
+          <div className="sidebar-2-buttons">
+            <button disabled={!show} onClick={handleList} className="apply-button">
+              List
+            </button>{" "}
+            <button disabled={show} onClick={handleGraph} className="apply-button">
+              Graph
+            </button>
+          </div>
+          <FilterBox
+            handleFilter={handleFilter}
+            lower={lower}
+            upper={upper}
+            handleLower={handleLower}
+            handleUpper={handleUpper}
+          />
         </div>
       </div>
     </div>
   );
+  
 }
