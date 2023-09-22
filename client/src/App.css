@@ -219,6 +219,7 @@ form.problem-add {
 }
 
 .line-chart {
-  margin-top: 40px;
   width: 80%;
+  margin: 0 auto;
+  width: 70%;
 }
