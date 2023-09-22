@@ -24,6 +24,7 @@ ChartJs.register(
 export default function SolvedList() {
   const [problemList, setProblemList] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [show, setShow] = useState(false); 
   const [lower, setLower] = useState('');
   const [upper, setUpper] = useState('');
   const [searchParams, setSearchParams] = useSearchParams({
@@ -141,28 +142,50 @@ export default function SolvedList() {
 
   function handleLower(e) { setLower(e.target.value); }
   function handleUpper(e) { setUpper(e.target.value); }
+  // !show -> list
+  // show -> graph
+  function handleGraph() {
+    if (!show) setShow(!show);
+  }
+  function handleList() {
+    if (show) setShow(!show);
+  }
 
   return (
     <div>
       <h1>Solved List</h1>
       <div>
         <div className="solved-page">
-          <Table
-            problemList={problemList}
-            isSolved={true}
-            refresh={refresh}
-            setRefresh={setRefresh}
-          />
-          <FilterBox
-            handleFilter={handleFilter}
-            lower={lower}
-            upper={upper}
-            handleLower={handleLower}
-            handleUpper={handleUpper}
-          />
-        </div>
-        <div className="line-chart">
-          <Line redraw={true} data = {data} options={options} />
+          {!show && 
+            <Table
+              problemList={problemList}
+              isSolved={true}
+              refresh={refresh}
+              setRefresh={setRefresh}
+            />
+          }
+          {show &&
+            <div className="line-chart">
+              <Line redraw={true} data = {data} options={options} />
+            </div>
+          }
+          <div className="solved-sidebar">
+            <div className="sidebar-2-buttons">
+              <button disabled={!show} onClick={handleList} className="apply-button">
+                List
+              </button>{" "}
+              <button disabled={show} onClick={handleGraph} className="apply-button">
+                Graph
+              </button>
+            </div>
+            <FilterBox
+              handleFilter={handleFilter}
+              lower={lower}
+              upper={upper}
+              handleLower={handleLower}
+              handleUpper={handleUpper}
+            />
+          </div>
         </div>
       </div>
     </div>
