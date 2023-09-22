@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { backendURL } from "../App.js";
-import { findDifMinute } from "./date.js";
+import { findDifMinute, findSolvedDuration } from "./date.js";
 import { FilterBox } from "./FilterBox.js";
+import { StatBar } from "./StatBar.js";
 import Table from "./Table.js";
 import RingLoader from "react-spinners/RingLoader.js";
+
 
 import { Line } from 'react-chartjs-2';
 import {
@@ -37,6 +39,8 @@ export default function SolvedList() {
   const [data, setData] = useState({});
   const [options, setOptions] = useState({});
   const [firstFetch, setFirstFetch] = useState(true);
+  const [totalDuration, setTotalDuration] = useState(0);
+  const [numProblems, setNumProblems] = useState(0);
 
   useEffect(() => {
     const newData = {
@@ -65,16 +69,22 @@ export default function SolvedList() {
       },
     }
     let ymax = 0;
+    let total = 0;
     for (const problem of problemList) {
       const differenceMinute = findDifMinute(problem.startedDate, problem.finishedDate);
+      total += new Date(problem.finishedDate) - new Date(problem.startedDate);
       ymax = Math.max(differenceMinute, ymax);
       // pushing at the start of the array
       newData.labels.unshift(problem.problemId);
       newData.datasets[0].data.unshift(differenceMinute);
     }
     newOptions.scales.y.max = ymax + 10;
+    // graph
     setData(newData);
     setOptions(newOptions);
+    // sidebar statistic
+    setTotalDuration(total);
+    setNumProblems(problemList.length);
   }, [problemList]);
 
   useEffect(() => {
@@ -182,6 +192,10 @@ export default function SolvedList() {
             upper={upper}
             handleLower={handleLower}
             handleUpper={handleUpper}
+          />
+          <StatBar
+            totalDuration={totalDuration}
+            numProblems={numProblems}
           />
         </div>
       </div>
