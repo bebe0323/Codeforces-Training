@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";  
+import { Navigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import { timeToString } from "../problemList/date.js";
-
+import RingLoader from "react-spinners/RingLoader.js";
 import { backendURL } from "../App.js";
 
 export default function Solving() {
@@ -11,6 +11,7 @@ export default function Solving() {
   const [redirect, setRedirect] = useState(false);
   const [note, setNote] = useState('');
   const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [firstFetch, setFirstFetch] = useState(true);
 
   useEffect(() => {
     // use effect is called after paging is reloaded
@@ -32,13 +33,10 @@ export default function Solving() {
               setNote(data.note);
             })
         } else if (response.status === 401) {
-          // unauthorised
-          response.json()
-            .then(data => {
-              alert(data);
-              setRedirect('login');
-            })
+          alert('Login first');
+          setRedirect('login');
         }
+        setFirstFetch(false);
       } catch(error) {
         console.log('Error fetching data: ', error);
       }
@@ -92,38 +90,46 @@ export default function Solving() {
   function handleNoteChange(e) {
     setNote(e.target.value);
   }
-  
-  if (problem === null) {
+
+  if (firstFetch) {
     return (
-      <div>
-        No active solving problem
-      </div>
-    )
-  } else {
-    return (
-      <div className="solving-page">
-        <h1>
-          <a target="_blank" className="problem-link" rel="noreferrer noopener" href={problem.link}>
-            {problem.title}
-          </a>
-        </h1>
-        <h2 className="time">{timeToString(time)}</h2>
-        <Button disabled={loadingSubmit} className="skipped-button" variant="danger" onClick={() => handleButton('skipped')}>
-          Skipped
-        </Button>{' '}
-        <Button disabled={loadingSubmit} className="solved-button" variant="success" onClick={() => handleButton('solved')}>
-          Solved
-        </Button>
-        <br />
-        <textarea
-          className="notes"
-          type="text"
-          rows={10}
-          cols={50}
-          value={note}
-          onChange={handleNoteChange}
-        />
+      <div className="loading">
+        <RingLoader color="#36d7b7" size={120}/>
       </div>
     );
   }
+  return (
+    <div>
+      {problem === null && (
+        <div>
+          No active solving problem
+        </div>
+      )}
+      {problem !== null && (
+        <div className="solving-page">
+          <h1>
+            <a target="_blank" className="problem-link" rel="noreferrer noopener" href={problem.link}>
+              {problem.title}
+            </a>
+          </h1>
+          <h2 className="time">{timeToString(time)}</h2>
+          <Button disabled={loadingSubmit} className="skipped-button" variant="danger" onClick={() => handleButton('skipped')}>
+            Skipped
+          </Button>{' '}
+          <Button disabled={loadingSubmit} className="solved-button" variant="success" onClick={() => handleButton('solved')}>
+            Solved
+          </Button>
+          <br />
+          <textarea
+            className="notes"
+            type="text"
+            rows={10}
+            cols={50}
+            value={note}
+            onChange={handleNoteChange}
+          />
+        </div>
+      )}
+    </div>
+  );
 }

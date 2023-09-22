@@ -79,12 +79,11 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
             {!isTodo && <td>{findSolvedDuration(item.startedDate, item.finishedDate)}</td>}
             {!isTodo && <td>{item.note}</td>}
             <td>
-              {
-                isTodo &&
+              {isTodo && (
                 <Button disabled={loadingStart && item.problemId === loadingId} onClick={() => handleStart(item.problemId)} variant="warning">
                   Start Solving
                 </Button>
-              }{' '}
+              )}{' '}
               <Button disabled={loadingRemove && item.problemId === loadingId} onClick={() => handleRemove(item.problemId)} variant="danger">
                 Remove
               </Button>

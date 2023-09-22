@@ -223,3 +223,8 @@ form.problem-add {
   margin: 0 auto;
   width: 70%;
 }
+
+.loading {
+  display: grid;
+  place-items: center;
+}
