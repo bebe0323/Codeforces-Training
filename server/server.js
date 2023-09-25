@@ -221,14 +221,9 @@ app.put('/problem/update', async (req, res) => {
 
 app.get('/', (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
+  console.log('Server called');
   res.send('hello');
 });
-
-async function stayAwake() {
-  await delay(120000); // every 2 mins
-  console.log('Server staying awake');
-  stayAwake();
-}
 
 const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -244,7 +239,6 @@ const connectDB = async () => {
 
 connectDB().then(() => {
   app.listen(PORT, () => {
-    stayAwake();
     console.log(`Listening on port ${PORT}`);
   }) 
 });
