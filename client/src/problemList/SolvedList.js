@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { backendURL } from "../App.js";
-import { findDifMinute, findSolvedDuration } from "./date.js";
-import { FilterBox } from "./FilterBox.js";
-import { StatBar } from "./StatBar.js";
-import Table from "./Table.js";
+import { findDifMinute, findSolvedDuration } from "./components/date.js";
+import { FilterBox } from "./components/FilterBox.js";
+import { StatBar } from "./components/StatBar.js";
+import Table from "./components/Table.js";
 import RingLoader from "react-spinners/RingLoader.js";
 
 

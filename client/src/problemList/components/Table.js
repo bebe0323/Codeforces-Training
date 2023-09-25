@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import { findDate, findSolvedDuration } from "./date.js";
-import { backendURL } from "../App.js";
+import { backendURL } from "../../App.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

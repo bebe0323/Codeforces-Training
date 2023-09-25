@@ -204,7 +204,6 @@ app.put('/problem/update', async (req, res) => {
     if (err) {
       return res.status(400).json(err);
     }
-    // return res.status(200).json(info);
     username = info.username;
   });
   const ret = await problemUpdate(
@@ -223,7 +222,13 @@ app.put('/problem/update', async (req, res) => {
 app.get('/', (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.send('hello');
-})
+});
+
+async function stayAwake() {
+  await delay(600000); // in every 10 mins
+  console.log('Server staying awake');
+  stayAwake();
+}
 
 const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
@@ -239,6 +244,7 @@ const connectDB = async () => {
 
 connectDB().then(() => {
   app.listen(PORT, () => {
+    stayAwake();
     console.log(`Listening on port ${PORT}`);
   }) 
 });
