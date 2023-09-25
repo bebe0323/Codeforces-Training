@@ -225,7 +225,7 @@ app.get('/', (req, res) => {
 });
 
 async function stayAwake() {
-  await delay(600000); // in every 10 mins
+  await delay(360000); // in every  mins
   console.log('Server staying awake');
   stayAwake();
 }

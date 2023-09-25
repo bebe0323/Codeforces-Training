@@ -70,7 +70,7 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
       </thead>
       <tbody>
         {problemList.map((item, index) => (
-          <tr key={index} className={!index % 2 ? 'active-row': ''}>
+          <tr key={index} className={!(index % 2) ? 'active-row': ''}>
             <td><a target="_blank" rel="noreferrer noopener" className="cfLink" href={item.link}>{item.problemId}</a></td>
             <td>{item.title}</td>
             <td>{item.difficulty}</td>

@@ -33,7 +33,7 @@ export default function Header() {
   }
   return(
     <header>
-      <Link to="/" className="logo">My Codeforces</Link>
+      <Link to="/" className="logo">My CF Training</Link>
       <nav>
         {userInfo && (
           <>
