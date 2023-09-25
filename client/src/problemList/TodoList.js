@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { backendURL } from "../App.js";
-import Table from "./components/Table.js";
-import RingLoader from "react-spinners/RingLoader.js";
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import RingLoader from 'react-spinners/RingLoader.js';
+import { backendURL } from '../App.js';
+import Table from './components/Table.js';
 
 export default function TodoList() {
   const [problemList, setProblemList] = useState([]);
@@ -21,15 +21,15 @@ export default function TodoList() {
         });
         if (response.status === 200) {
           response.json()
-            .then(data => {
+            .then((data) => {
               setProblemList(data);
-            })
+            });
         } else if (response.status === 401) {
           alert('Login first');
           setRedirect('login');
         } else {
           response.json()
-            .then(data => alert(data))
+            .then((data) => alert(data));
         }
         setFirstFetch(false);
       } catch (error) {
@@ -40,13 +40,13 @@ export default function TodoList() {
   }, [refresh]);
 
   if (redirect === 'login') {
-    return <Navigate to={'/login'} />
+    return <Navigate to="/login" />;
   }
   return (
     <div>
       {firstFetch && (
         <div className="loading">
-          <RingLoader color="#36d7b7" size={120}/>
+          <RingLoader color="#36d7b7" size={120} />
         </div>
       )}
       {!firstFetch && (
@@ -54,7 +54,7 @@ export default function TodoList() {
           <h1>Todo List</h1>
           <Table
             problemList={problemList}
-            isTodo={true}
+            isTodo
             refresh={refresh}
             setRefresh={setRefresh}
           />

@@ -1,37 +1,33 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useContext } from "react";
-import { UserContext } from "./UserContext";
-import { backendURL } from "./App.js";
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useContext } from 'react';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
+import { UserContext } from './UserContext';
+import { backendURL } from './App.js';
 
 export default function Header() {
   const navigate = useNavigate();
-  const {userInfo, setUserInfo} = useContext(UserContext);
+  const { userInfo, setUserInfo } = useContext(UserContext);
 
   useEffect(() => {
     fetch(`${backendURL}/profile`, {
       method: 'GET',
       credentials: 'include',
     })
-      .then(response => {
-        return response.json()
-      })
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setUserInfo(data.username);
-      })
+      });
   }, []);
 
   function logout() {
     fetch(`${backendURL}/logout`, {
       method: 'POST',
-      credentials: 'include'
-    })
+      credentials: 'include',
+    });
     setUserInfo(null);
     navigate('/');
   }
-  return(
+  return (
     <header>
       <Link to="/" className="logo">My CF Training</Link>
       <nav>
@@ -51,7 +47,7 @@ export default function Header() {
               <NavDropdown.Item size="small" href="/#/list/skipped">Skipped</NavDropdown.Item>
             </NavDropdown>
             <a onClick={logout}>Logout</a>
-            
+
           </>
         )}
         {!userInfo && (
@@ -62,5 +58,5 @@ export default function Header() {
         )}
       </nav>
     </header>
-  )
+  );
 }

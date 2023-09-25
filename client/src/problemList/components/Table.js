@@ -1,10 +1,12 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import { findDate, findSolvedDuration } from "./date.js";
-import { backendURL } from "../../App.js";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { findDate, findSolvedDuration } from './date.js';
+import { backendURL } from '../../App.js';
 
-export default function Table({ problemList, isTodo = false, isSolved = false, isSkipped = false, refresh, setRefresh }) {
+export default function Table({
+  problemList, isTodo = false, isSolved = false, isSkipped = false, refresh, setRefresh,
+}) {
   const navigate = useNavigate();
   const [loadingStart, setLoadingStart] = useState(false);
   const [loadingRemove, setLoadingRemove] = useState(false);
@@ -24,7 +26,7 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
       setRefresh(!refresh);
     } else {
       response.json()
-        .then(error => console.log(error))
+        .then((error) => console.log(error));
     }
   }
 
@@ -34,10 +36,10 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
     const response = await fetch(`${backendURL}/problem/update`, {
       method: 'PUT',
       body: JSON.stringify({
-        problemId: problemId,
+        problemId,
         preStatus: 'todo',
         status: 'solving',
-        note: ''
+        note: '',
       }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -45,10 +47,10 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
     setLoadingId('');
     setLoadingStart(false);
     if (response.status === 200) {
-      navigate("/problem/solving");
+      navigate('/problem/solving');
     } else {
       response.json()
-        .then(data => alert(data))
+        .then((data) => alert(data));
     }
   }
 
@@ -56,9 +58,9 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
     <table className={isSolved ? 'solved-table' : ''}>
       <thead>
         <tr>
-          <th style={{width: '3.75em', }}>#</th>
-          <th style={{textAlign: 'center'}}>Name</th>
-          <th style={{width: '2.5em'}}>Difficulty</th>
+          <th style={{ width: '3.75em' }}>#</th>
+          <th style={{ textAlign: 'center' }}>Name</th>
+          <th style={{ width: '2.5em' }}>Difficulty</th>
           {isTodo && <th>Date added</th>}
           {isSolved && <th>Date solved</th>}
           {isSolved && <th>Solved Duration</th>}
@@ -70,7 +72,7 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
       </thead>
       <tbody>
         {problemList.map((item, index) => (
-          <tr key={index} className={!(index % 2) ? 'active-row': ''}>
+          <tr key={index} className={!(index % 2) ? 'active-row' : ''}>
             <td><a target="_blank" rel="noreferrer noopener" className="cfLink" href={item.link}>{item.problemId}</a></td>
             <td>{item.title}</td>
             <td>{item.difficulty}</td>
@@ -83,7 +85,8 @@ export default function Table({ problemList, isTodo = false, isSolved = false, i
                 <Button disabled={loadingStart && item.problemId === loadingId} onClick={() => handleStart(item.problemId)} variant="warning">
                   Start Solving
                 </Button>
-              )}{' '}
+              )}
+              {' '}
               <Button disabled={loadingRemove && item.problemId === loadingId} onClick={() => handleRemove(item.problemId)} variant="danger">
                 Remove
               </Button>

@@ -1,40 +1,37 @@
-import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { backendURL } from "../App.js";
-import { findDifMinute, findSolvedDuration } from "./components/date.js";
-import { FilterBox } from "./components/FilterBox.js";
-import { StatBar } from "./components/StatBar.js";
-import Table from "./components/Table.js";
-import RingLoader from "react-spinners/RingLoader.js";
-
-
+import React, { useEffect, useState } from 'react';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import RingLoader from 'react-spinners/RingLoader.js';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJs,
   LineElement,
   CategoryScale, // x axis
   LinearScale, // y axis
-  PointElement
+  PointElement,
 } from 'chart.js';
-import { useSearchParams } from "react-router-dom";
+import { backendURL } from '../App.js';
+import { findDifMinute } from './components/date.js';
+import { FilterBox } from './components/FilterBox.js';
+import { StatBar } from './components/StatBar.js';
+import Table from './components/Table.js';
 
 ChartJs.register(
   LineElement,
   CategoryScale,
   LinearScale,
-  PointElement
+  PointElement,
 );
 
 export default function SolvedList() {
   const [problemList, setProblemList] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [show, setShow] = useState(false); 
+  const [show, setShow] = useState(false);
   const [lower, setLower] = useState('');
   const [upper, setUpper] = useState('');
   const [redirect, setRedirect] = useState('');
   const [searchParams, setSearchParams] = useSearchParams({
     lower: '',
-    upper: ''
+    upper: '',
   });
   const [data, setData] = useState({});
   const [options, setOptions] = useState({});
@@ -53,21 +50,21 @@ export default function SolvedList() {
           borderColor: '#3B5998',
           pointBorderColor: '#3B5998',
           pointRadius: 4,
-          pointHoverRadius: 6
-        }
-      ]
-    }
-    let newOptions = {
+          pointHoverRadius: 6,
+        },
+      ],
+    };
+    const newOptions = {
       plugins: {
-        legend: true
+        legend: true,
       },
       scales: {
         y: {
           min: 0,
-          max: 20
-        }
+          max: 20,
+        },
       },
-    }
+    };
     let ymax = 0;
     let total = 0;
     for (const problem of problemList) {
@@ -91,8 +88,8 @@ export default function SolvedList() {
     // using async function here to avoid use async TodoList()
     async function fetchSolved() {
       try {
-        const lower1 = searchParams.get("lower");
-        const upper1 = searchParams.get("upper");
+        const lower1 = searchParams.get('lower');
+        const upper1 = searchParams.get('upper');
         // if lower and upper on params are numbers, setting lower and upper
         if (!isNaN(parseInt(lower1)) && !isNaN(parseInt(upper1))) {
           setLower(parseInt(lower1));
@@ -109,15 +106,15 @@ export default function SolvedList() {
         });
         if (response.status === 200) {
           response.json()
-            .then(data => {
+            .then((data) => {
               setProblemList(data);
-            })
+            });
         } else if (response.status === 401) {
           alert('Login first');
           setRedirect('login');
         } else {
           response.json()
-            .then(data => alert(data))
+            .then((data) => alert(data));
         }
         setFirstFetch(false);
       } catch (error) {
@@ -130,9 +127,9 @@ export default function SolvedList() {
   async function handleFilter(e) {
     e.preventDefault();
     // updating search params
-    setSearchParams(prev => {
-      prev.set("lower", lower);
-      prev.set("upper", upper);
+    setSearchParams((prev) => {
+      prev.set('lower', lower);
+      prev.set('upper', upper);
       return prev;
     });
     // updating list
@@ -151,14 +148,14 @@ export default function SolvedList() {
   }
 
   if (redirect === 'login') {
-    return <Navigate to={'/login'} />
+    return <Navigate to="/login" />;
   }
   if (firstFetch) {
     return (
       <div className="loading">
-        <RingLoader color="#36d7b7" size={120}/>
+        <RingLoader color="#36d7b7" size={120} />
       </div>
-    )
+    );
   }
   return (
     <div>
@@ -167,21 +164,22 @@ export default function SolvedList() {
         {!show && (
           <Table
             problemList={problemList}
-            isSolved={true}
+            isSolved
             refresh={refresh}
             setRefresh={setRefresh}
           />
         )}
         {show && (
           <div className="line-chart">
-            <Line redraw={true} data = {data} options={options} />
+            <Line redraw data={data} options={options} />
           </div>
         )}
         <div className="solved-sidebar">
           <div className="sidebar-2-buttons">
             <button disabled={!show} onClick={handleList} className="apply-button">
               List
-            </button>{" "}
+            </button>
+            {' '}
             <button disabled={show} onClick={handleGraph} className="apply-button">
               Graph
             </button>
@@ -201,5 +199,4 @@ export default function SolvedList() {
       </div>
     </div>
   );
-  
 }

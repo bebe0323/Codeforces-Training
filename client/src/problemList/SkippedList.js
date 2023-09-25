@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import RingLoader from "react-spinners/RingLoader.js";
-import { backendURL } from "../App.js";
-import Table from "./components/Table.js";
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import RingLoader from 'react-spinners/RingLoader.js';
+import { backendURL } from '../App.js';
+import Table from './components/Table.js';
 
 export default function SkippedList() {
   const [problemList, setProblemList] = useState([]);
@@ -21,16 +21,16 @@ export default function SkippedList() {
         });
         if (response.status === 200) {
           response.json()
-            .then(data => {
+            .then((data) => {
               setProblemList(data);
-            })
+            });
         } else if (response.status === 401) {
           // unauthorised
           alert('Login first');
           setRedirect('login');
         } else {
           response.json()
-            .then(data => alert(data))
+            .then((data) => alert(data));
         }
         setFirstFetch(false);
       } catch (error) {
@@ -39,15 +39,15 @@ export default function SkippedList() {
     }
     fetchSolved();
   }, [refresh]);
-  
+
   if (redirect === 'login') {
-    return <Navigate to={'/login'} />
+    return <Navigate to="/login" />;
   }
   return (
     <div>
       {firstFetch && (
         <div className="loading">
-          <RingLoader color="#36d7b7" size={120}/>
+          <RingLoader color="#36d7b7" size={120} />
         </div>
       )}
       {!firstFetch && (
@@ -55,7 +55,7 @@ export default function SkippedList() {
           <h1>Skipped List</h1>
           <Table
             problemList={problemList}
-            isSkipped={true}
+            isSkipped
             refresh={refresh}
             setRefresh={setRefresh}
           />

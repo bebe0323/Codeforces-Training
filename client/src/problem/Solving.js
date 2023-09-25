@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import { timeToString } from "../problemList/components/date.js";
-import RingLoader from "react-spinners/RingLoader.js";
-import { backendURL } from "../App.js";
+import RingLoader from 'react-spinners/RingLoader.js';
+import { timeToString } from '../problemList/components/date.js';
+import { backendURL } from '../App.js';
 
 export default function Solving() {
   const [problem, setProblem] = useState(null);
@@ -24,20 +24,20 @@ export default function Solving() {
         });
         if (response.status === 200) {
           response.json()
-            .then(data => {
+            .then((data) => {
               setProblem(data);
               const startedDate = new Date(data.startedDate);
               const currentDate = new Date();
               const difference = currentDate - startedDate;
               setTime(Math.floor((difference)));
               setNote(data.note);
-            })
+            });
         } else if (response.status === 401) {
           alert('Login first');
           setRedirect('login');
         }
         setFirstFetch(false);
-      } catch(error) {
+      } catch (error) {
         console.log('Error fetching data: ', error);
       }
     }
@@ -62,8 +62,8 @@ export default function Solving() {
       body: JSON.stringify({
         problemId: problem.problemId,
         preStatus: 'solving',
-        status: status,
-        note: note
+        status,
+        note,
       }),
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -73,18 +73,18 @@ export default function Solving() {
       setRedirect(status);
     } else {
       response.json()
-        .then(data => alert(data));
+        .then((data) => alert(data));
     }
   }
 
-  if(redirect === 'solved') {
-    return <Navigate to={`/list/solved`} />;
+  if (redirect === 'solved') {
+    return <Navigate to="/list/solved" />;
   }
   if (redirect === 'skipped') {
-    return <Navigate to={'/list/skipped'} />
+    return <Navigate to="/list/skipped" />;
   }
   if (redirect === 'login') {
-    return <Navigate to={'/login'} />
+    return <Navigate to="/login" />;
   }
 
   function handleNoteChange(e) {
@@ -94,7 +94,7 @@ export default function Solving() {
   if (firstFetch) {
     return (
       <div className="loading">
-        <RingLoader color="#36d7b7" size={120}/>
+        <RingLoader color="#36d7b7" size={120} />
       </div>
     );
   }
@@ -115,7 +115,8 @@ export default function Solving() {
           <h2 className="time">{timeToString(time)}</h2>
           <Button disabled={loadingSubmit} className="skipped-button" variant="danger" onClick={() => handleButton('skipped')}>
             Skipped
-          </Button>{' '}
+          </Button>
+          {' '}
           <Button disabled={loadingSubmit} className="solved-button" variant="success" onClick={() => handleButton('solved')}>
             Solved
           </Button>

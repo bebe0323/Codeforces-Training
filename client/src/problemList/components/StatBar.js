@@ -1,4 +1,4 @@
-import { timeToString } from "./date.js";
+import { timeToString } from './date.js';
 
 export function StatBar({ totalDuration, numProblems }) {
   let averageDuration;
@@ -27,5 +27,5 @@ export function StatBar({ totalDuration, numProblems }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
