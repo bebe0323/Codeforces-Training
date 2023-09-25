@@ -1,22 +1,10 @@
-
 export function findDate(finishedDate) {
   finishedDate = new Date(finishedDate);
   // Extract year, month, and date
   const year = finishedDate.getUTCFullYear();
   const month = finishedDate.getUTCMonth() + 1;
   const date = finishedDate.getUTCDate();
-  return (
-    `${year}/${month}/${date}`
-  );
-}
-
-export function findSolvedDuration(startedDate, finishedDate) {
-  startedDate = new Date(startedDate);
-  finishedDate = new Date(finishedDate);
-  const diff = finishedDate - startedDate;
-  return (
-    timeToString(diff)
-  );
+  return (`${year}/${month}/${date}`);
 }
 
 export function timeToString(time) {
@@ -29,11 +17,20 @@ export function timeToString(time) {
   const diffInSec = (diffInMin - mm) * 60;
   const ss = Math.floor(diffInSec);
 
-  const formattedHH = hh.toString().padStart(2, "0");
-  const formattedMM = mm.toString().padStart(2, "0");
-  const formattedSS = ss.toString().padStart(2, "0");
+  const formattedHH = hh.toString().padStart(2, '0');
+  const formattedMM = mm.toString().padStart(2, '0');
+  const formattedSS = ss.toString().padStart(2, '0');
 
   return `${formattedHH}:${formattedMM}:${formattedSS}`;
+}
+
+export function findSolvedDuration(startedDate, finishedDate) {
+  startedDate = new Date(startedDate);
+  finishedDate = new Date(finishedDate);
+  const diff = finishedDate - startedDate;
+  return (
+    timeToString(diff)
+  );
 }
 
 export function findDifMinute(startedDate, finishedDate) {

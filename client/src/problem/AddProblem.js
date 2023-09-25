@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { backendURL } from "../App.js";
 
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { FaCopy } from "react-icons/fa6";
+import { FaCopy } from 'react-icons/fa6';
+import { backendURL } from '../App.js';
 
 export default function AddProblemPage() {
   const [link, setLink] = useState('');
@@ -49,7 +49,7 @@ export default function AddProblemPage() {
       setLink('');
     } else {
       response.json()
-        .then(data => alert(data))
+        .then((data) => alert(data));
     }
   }
 
@@ -61,11 +61,11 @@ export default function AddProblemPage() {
 
   function handleMouseEnter() {
     setIsHovered(true);
-  };
+  }
 
   function handleMouseLeave() {
     setIsHovered(false);
-  };
+  }
 
   return (
     <div>
@@ -103,12 +103,13 @@ export default function AddProblemPage() {
         >
           <FaCopy />
         </button>
-        {isHovered &&
+        {isHovered
+          && (
           <div className="copy-hovered">
             {copyMessage}
           </div>
-        }
+          )}
       </div>
     </div>
-  )
+  );
 }

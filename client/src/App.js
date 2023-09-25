@@ -13,24 +13,24 @@ import TodoList from './problemList/TodoList.js';
 import SolvedList from './problemList/SolvedList.js';
 import Solving from './problem/Solving.js';
 
-export const backendURL = "https://cp-training-backend.onrender.com";
+export const backendURL = 'https://cp-training-backend.onrender.com';
 
 function App() {
   return (
     <UserContextProvider>
       <Routes>
-        <Route path='/' element = {<Layout />} >
-          <Route index element = {<IndexPage />} />
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/register' element={<RegisterPage />} />
-          <Route path='/problem/add' element={<AddProblemPage />} />
-          <Route path='/list/todo' element={<TodoList />} />
-          <Route path='/list/skipped' element={<SkippedList />} />
-          <Route path='/list/solved' element={<SolvedList />} />
-          <Route path='/problem/solving' element={<Solving />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<IndexPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/problem/add" element={<AddProblemPage />} />
+          <Route path="/list/todo" element={<TodoList />} />
+          <Route path="/list/skipped" element={<SkippedList />} />
+          <Route path="/list/solved" element={<SolvedList />} />
+          <Route path="/problem/solving" element={<Solving />} />
           <Route
             path="*"
-            element={<Navigate to="/" replace={true} />}
+            element={<Navigate to="/" replace />}
           />
         </Route>
       </Routes>

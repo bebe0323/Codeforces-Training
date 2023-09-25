@@ -1,5 +1,6 @@
-
-export function FilterBox({ handleFilter, lower, upper, handleLower, handleUpper }) {
+export function FilterBox({
+  handleFilter, lower, upper, handleLower, handleUpper,
+}) {
   return (
     <form className="filter-box" onSubmit={handleFilter}>
       <p className="filter-text">→ Filter Problems</p>
