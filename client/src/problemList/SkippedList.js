@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import RingLoader from "react-spinners/RingLoader.js";
 import { backendURL } from "../App.js";
-import Table from "./Table.js";
+import Table from "./components/Table.js";
 
 export default function SkippedList() {
   const [problemList, setProblemList] = useState([]);

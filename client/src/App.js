@@ -4,16 +4,16 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 
 import Layout from './Layout.js';
 import IndexPage from './pages/IndexPage.js';
-import LoginPage from './pages/LoginPage.js';
-import RegisterPage from './pages/RegisterPage.js';
+import LoginPage from './auth-pages/LoginPage.js';
+import RegisterPage from './auth-pages/RegisterPage.js';
 import { UserContextProvider } from './UserContext.js';
-import AddProblemPage from './pages/AddProblemPage.js';
+import AddProblemPage from './problem/AddProblem.js';
 import SkippedList from './problemList/SkippedList.js';
 import TodoList from './problemList/TodoList.js';
 import SolvedList from './problemList/SolvedList.js';
-import Solving from './pages/Solving.js';
+import Solving from './problem/Solving.js';
 
-export const backendURL = "https://cp-training-backend.onrender.com";
+export const backendURL = "http://localhost:4000";
 
 function App() {
   return (

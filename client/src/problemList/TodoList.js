@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { backendURL } from "../App.js";
-import Table from "./Table.js";
+import Table from "./components/Table.js";
 import RingLoader from "react-spinners/RingLoader.js";
 
 export default function TodoList() {
@@ -24,7 +24,7 @@ export default function TodoList() {
             .then(data => {
               setProblemList(data);
             })
-        } if (response.status === 401) {
+        } else if (response.status === 401) {
           alert('Login first');
           setRedirect('login');
         } else {
@@ -54,7 +54,6 @@ export default function TodoList() {
           <h1>Todo List</h1>
           <Table
             problemList={problemList}
-            // handleStart={handleStart}
             isTodo={true}
             refresh={refresh}
             setRefresh={setRefresh}

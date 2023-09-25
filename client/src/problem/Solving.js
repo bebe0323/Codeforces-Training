@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import { timeToString } from "../problemList/date.js";
+import { timeToString } from "../problemList/components/date.js";
 import RingLoader from "react-spinners/RingLoader.js";
 import { backendURL } from "../App.js";
 
