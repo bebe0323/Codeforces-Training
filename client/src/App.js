@@ -13,7 +13,7 @@ import TodoList from './problemList/TodoList.js';
 import SolvedList from './problemList/SolvedList.js';
 import Solving from './problem/Solving.js';
 
-export const backendURL = "http://localhost:4000";
+export const backendURL = "https://cp-training-backend.onrender.com";
 
 function App() {
   return (
